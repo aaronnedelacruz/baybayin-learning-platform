@@ -1,0 +1,244 @@
+/*
+  Keyboard page. Uses the tokens from index.css and shared pieces from Home.css.
+  Fits a 1920x1080 screen with no scrolling: the page is a full-height column,
+  and <main> fills the space between nav and footer and centers its content.
+*/
+
+.kb-page {
+  min-height: 100svh;
+}
+
+.kb-main {
+  --key-w: 64px;
+  --key-h: 76px;
+  --gap: 8px;
+
+  flex: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  text-align: center;
+}
+
+.kb-head h1 {
+  font-size: 36px;
+  margin: 0 0 4px;
+}
+.kb-head p {
+  font-size: 16px;
+  color: var(--text);
+}
+
+/* Writing area: the only input on the page */
+.kb-translator {
+  width: 100%;
+  max-width: 960px;
+  box-sizing: border-box;
+  padding: 20px 24px 22px;
+  border-radius: 24px;
+  background: var(--surface);
+  border: 2px solid var(--nav);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.kb-field {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 190px;
+  border-radius: 16px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 2px solid var(--nav);
+  color: var(--text-h);
+  font-size: 32px;
+  line-height: 1.5;
+  resize: none;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+.kb-field:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.kb-field::placeholder {
+  font: 400 18px/1.5 var(--sans);
+  color: var(--text);
+}
+
+/* Slim, centered action row; the status message floats below it */
+.kb-actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.kb-actions .btn {
+  cursor: pointer;
+  padding: 7px 16px;
+  font-size: 14px;
+  line-height: 1.2;
+  border-width: 1.5px;
+  border-radius: 8px;
+}
+.btn.danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.kb-notice {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* On-screen keyboard: row 1 = vowels, marks, editing. Row 2 = all consonants. */
+.kb-keyboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.kb-band {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 36px;
+}
+.kb-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.kb-group h5 {
+  display: none;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.kb-keys {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap);
+}
+
+/* All 15 consonants in a single line */
+.kb-row {
+  width: 100%;
+}
+.kb-keys.consonants {
+  display: grid;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  width: 100%;
+  max-width: calc(15 * var(--key-w) + 14 * var(--gap));
+}
+.kb-keys.consonants .kb-key {
+  width: 100%;
+}
+
+.kb-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: var(--key-w);
+  height: var(--key-h);
+  padding: 8px 2px;
+  box-sizing: border-box;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text-h);
+  border: 1px solid var(--border);
+  transition: transform 0.12s, border-color 0.12s, background 0.12s;
+}
+.kb-key.space {
+  width: calc(2 * var(--key-w) + var(--gap));
+}
+.kb-key:hover {
+  filter: none;
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  transform: translateY(-2px);
+}
+.kb-key:active {
+  transform: translateY(0);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.kb-key:active .bb-key,
+.kb-key:active small {
+  color: var(--on-accent);
+}
+.kb-key .bb-key {
+  line-height: 1.2;
+}
+.kb-key small {
+  font: 500 12px/1.2 var(--sans);
+  color: var(--text);
+  white-space: nowrap;
+}
+.kb-glyph {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+/* Tablets: the consonants wrap into rows of 8 */
+@media (max-width: 900px) {
+  .kb-main {
+    --key-w: 56px;
+    --key-h: 70px;
+  }
+  .kb-keys.consonants {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    max-width: calc(8 * var(--key-w) + 7 * var(--gap));
+  }
+}
+
+/* Phones: rows of 5, smaller type */
+@media (max-width: 600px) {
+  .kb-main {
+    padding: 16px;
+    gap: 22px;
+  }
+  .kb-translator {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  .kb-field {
+    height: 150px;
+    font-size: 36px;
+  }
+  .kb-keys.consonants {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 100%;
+  }
+  .kb-key .bb-key {
+    font-size: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-key {
+    transition: none;
+  }
+  .kb-key:hover {
+    transform: none;
+  }
+}
