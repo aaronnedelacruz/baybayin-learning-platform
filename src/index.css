@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tagalog&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/*
+  Baybayin design tokens.
+  Each token uses light-dark(day, night). The theme follows the OS by default;
+  set <html data-theme="light"> or <html data-theme="dark"> to override it
+  (this is what the Day/Night toggle does).
+*/
+:root {
+  color-scheme: light dark;
+
+  /* Palette */
+  --vanilla: #fff3b0;
+  --hunyadi: #e09f3e;
+  --slate: #335c67;
+  --auburn: #9e2a2b;
+  --espresso: #1a0d07;
+
+  /* Roles */
+  --bg: light-dark(#fff3b0, #1a0d07);
+  --surface: light-dark(#fff9d6, #2a1a12);
+  --text: light-dark(#5d4a3a, #cdbd8a); /* secondary / muted body */
+  --text-h: light-dark(#1a0d07, #fff3b0); /* headings and primary text */
+  --border: light-dark(rgba(26, 13, 7, 0.18), rgba(255, 243, 176, 0.2));
+  --code-bg: light-dark(#fff9d6, #2a1a12);
+
+  --accent: #e09f3e; /* primary buttons and highlights */
+  --on-accent: #1a0d07; /* text that sits on --accent */
+  --accent-bg: rgba(224, 159, 62, 0.18);
+  --accent-border: rgba(224, 159, 62, 0.6);
+  --accent-text: light-dark(#9e2a2b, #e09f3e); /* accent used as text color */
+
+  --nav: #335c67;
+  --nav-text: #fff3b0;
+  --danger: light-dark(#9e2a2b, #e8736f);
+
+  --shadow-color: light-dark(rgba(26, 13, 7, 0.14), rgba(0, 0, 0, 0.5));
+  --shadow:
+    0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+
+  /* Fonts */
+  --sans: 'Plus Jakarta Sans', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: var(--sans);
+  --baybayin: 'Noto Sans Tagalog', 'Segoe UI Historic', 'Leelawadee UI',
+    sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 400 18px/170% var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+/* Headings: Plus Jakarta Sans. Hero is 800, page titles 700, card titles 600. */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--heading);
+  color: var(--text-h);
+  margin: 0 0 8px;
+}
+
+.display {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 110%;
+  letter-spacing: -0.02em;
+  @media (max-width: 1024px) {
+    font-size: 48px;
+  }
+  @media (max-width: 640px) {
+    font-size: 36px;
+  }
+}
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 120%;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 125%;
+  @media (max-width: 1024px) {
+    font-size: 28px;
+  }
+}
+h3 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 130%;
+  @media (max-width: 1024px) {
+    font-size: 24px;
+  }
+}
+h4 {
+  font-size: 22px;
+  font-weight: 600;
+}
+h5 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+/* Text helpers */
+.secondary {
+  font-size: 16px;
+  color: var(--text);
+}
+.caption {
+  font-size: 14px;
+  color: var(--text);
+}
+label,
+.label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+/* Buttons: SemiBold 600, never bold */
+button {
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 14px 22px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+button:hover {
+  filter: brightness(1.07);
+}
+
+/* Baybayin type scale (Noto Sans Tagalog, Regular) */
+.bb,
+.bb-inline,
+.bb-key,
+.bb-output,
+.bb-card,
+.bb-hero {
+  font-family: var(--baybayin);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-h);
+}
+.bb-hero {
+  font-size: 96px; /* lesson hero character */
+}
+.bb-card {
+  font-size: 64px; /* character cards */
+}
+.bb-output {
+  font-size: 52px; /* translator and live output */
+}
+.bb-key {
+  font-size: 32px; /* keyboard keys */
+}
+.bb-inline {
+  font-size: 24px; /* inside paragraphs */
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
