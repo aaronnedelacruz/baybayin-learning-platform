@@ -21,7 +21,8 @@ export type PracticeItem = {
   difficulty: Difficulty;
 };
 
-const countSyllables = (breakdown: string) => breakdown.split(/[-\s]+/).filter(Boolean).length;
+const countSyllables = (breakdown: string) =>
+  breakdown.split(/[-\s]+/).filter(Boolean).length;
 
 /** Hint for words and phrases: size and first letter, never the full answer. */
 const sizeHint = (latin: string, breakdown: string, phrase: boolean) => {
@@ -29,17 +30,50 @@ const sizeHint = (latin: string, breakdown: string, phrase: boolean) => {
   const words = latin.split(" ").length;
   const sylText = `${syl} syllable${syl === 1 ? "" : "s"}`;
   const start = `starts with “${latin[0]}”`;
-  return phrase ? `${words} words, ${sylText}, ${start}` : `${sylText}, ${start}`;
+  return phrase
+    ? `${words} words, ${sylText}, ${start}`
+    : `${sylText}, ${start}`;
 };
 
-const easy = (id: string, baybayin: string, latin: string, hint: string, altAnswers?: string[]): PracticeItem => ({
-  id: `e-${id}`, baybayin, latin, hint, altAnswers, difficulty: "easy",
+const easy = (
+  id: string,
+  baybayin: string,
+  latin: string,
+  hint: string,
+  altAnswers?: string[],
+): PracticeItem => ({
+  id: `e-${id}`,
+  baybayin,
+  latin,
+  hint,
+  altAnswers,
+  difficulty: "easy",
 });
-const word = (id: string, baybayin: string, latin: string, breakdown: string, altAnswers?: string[]): PracticeItem => ({
-  id: `m-${id}`, baybayin, latin, hint: sizeHint(latin, breakdown, false), altAnswers, difficulty: "medium",
+const word = (
+  id: string,
+  baybayin: string,
+  latin: string,
+  breakdown: string,
+  altAnswers?: string[],
+): PracticeItem => ({
+  id: `m-${id}`,
+  baybayin,
+  latin,
+  hint: sizeHint(latin, breakdown, false),
+  altAnswers,
+  difficulty: "medium",
 });
-const phrase = (id: string, baybayin: string, latin: string, breakdown: string): PracticeItem => ({
-  id: `h-${id}`, baybayin, latin, hint: sizeHint(latin, breakdown, true), difficulty: "hard",
+const phrase = (
+  id: string,
+  baybayin: string,
+  latin: string,
+  breakdown: string,
+): PracticeItem => ({
+  id: `h-${id}`,
+  baybayin,
+  latin,
+  hint: sizeHint(latin, breakdown, true),
+  difficulty: "hard",
 });
 
 export const PRACTICE_ITEMS: PracticeItem[] = [
@@ -47,7 +81,13 @@ export const PRACTICE_ITEMS: PracticeItem[] = [
   easy("a", "ᜀ", "a", "A vowel. The first letter of the alphabet."),
   easy("ba", "ᜊ", "ba", "Starts with “b”."),
   easy("ka", "ᜃ", "ka", "Starts with “k”."),
-  easy("da", "ᜇ", "da", "Starts with “d”. This character is also used for “r”.", ["ra"]),
+  easy(
+    "da",
+    "ᜇ",
+    "da",
+    "Starts with “d”. This character is also used for “r”.",
+    ["ra"],
+  ),
   easy("ga", "ᜄ", "ga", "Starts with “g”."),
   easy("ha", "ᜑ", "ha", "Starts with “h”."),
   easy("la", "ᜎ", "la", "Starts with “l”."),
@@ -60,8 +100,12 @@ export const PRACTICE_ITEMS: PracticeItem[] = [
   easy("wa", "ᜏ", "wa", "Starts with “w”."),
   easy("ya", "ᜌ", "ya", "Starts with “y”."),
   easy("pu", "ᜉᜓ", "pu", "Kudlit below: a u/o sound. Starts with “p”.", ["po"]),
-  easy("si", "ᜐᜒ", "si", "Kudlit above: an i/e sound. Starts with “s”.", ["se"]),
-  easy("ki", "ᜃᜒ", "ki", "Kudlit above: an i/e sound. Starts with “k”.", ["ke"]),
+  easy("si", "ᜐᜒ", "si", "Kudlit above: an i/e sound. Starts with “s”.", [
+    "se",
+  ]),
+  easy("ki", "ᜃᜒ", "ki", "Kudlit above: an i/e sound. Starts with “k”.", [
+    "ke",
+  ]),
   easy("mu", "ᜋᜓ", "mu", "Kudlit below: a u/o sound. Starts with “m”.", ["mo"]),
 
   /* Medium: one word (salita) */
@@ -95,11 +139,36 @@ export const PRACTICE_ITEMS: PracticeItem[] = [
   phrase("paalam", "ᜉᜀᜎᜋ᜔ ᜈ", "paalam na", "pa-a-lam na"),
   phrase("kainnatayo", "ᜃᜁᜈ᜔ ᜈ ᜆᜌᜓ", "kain na tayo", "ka-in na ta-yo"),
   phrase("akoaymasaya", "ᜀᜃᜓ ᜀᜌ᜔ ᜋᜐᜌ", "ako ay masaya", "a-ko ay ma-sa-ya"),
-  phrase("akoaypilipino", "ᜀᜃᜓ ᜀᜌ᜔ ᜉᜒᜎᜒᜉᜒᜈᜓ", "ako ay pilipino", "a-ko ay pi-li-pi-no"),
-  phrase("angaraw", "ᜀᜅ᜔ ᜀᜇᜏ᜔ ᜀᜌ᜔ ᜋᜁᜈᜒᜆ᜔", "ang araw ay mainit", "ang a-raw ay ma-i-nit"),
-  phrase("angbata", "ᜀᜅ᜔ ᜊᜆ ᜀᜌ᜔ ᜋᜐᜌ", "ang bata ay masaya", "ang ba-ta ay ma-sa-ya"),
-  phrase("mahalkobayan", "ᜋᜑᜎ᜔ ᜃᜓ ᜀᜅ᜔ ᜊᜌᜈ᜔", "mahal ko ang bayan", "ma-hal ko ang ba-yan"),
-  phrase("mabuhay", "ᜋᜊᜓᜑᜌ᜔ ᜀᜅ᜔ ᜉᜒᜎᜒᜉᜒᜈᜐ᜔", "mabuhay ang pilipinas", "ma-bu-hay ang pi-li-pi-nas"),
+  phrase(
+    "akoaypilipino",
+    "ᜀᜃᜓ ᜀᜌ᜔ ᜉᜒᜎᜒᜉᜒᜈᜓ",
+    "ako ay pilipino",
+    "a-ko ay pi-li-pi-no",
+  ),
+  phrase(
+    "angaraw",
+    "ᜀᜅ᜔ ᜀᜇᜏ᜔ ᜀᜌ᜔ ᜋᜁᜈᜒᜆ᜔",
+    "ang araw ay mainit",
+    "ang a-raw ay ma-i-nit",
+  ),
+  phrase(
+    "angbata",
+    "ᜀᜅ᜔ ᜊᜆ ᜀᜌ᜔ ᜋᜐᜌ",
+    "ang bata ay masaya",
+    "ang ba-ta ay ma-sa-ya",
+  ),
+  phrase(
+    "mahalkobayan",
+    "ᜋᜑᜎ᜔ ᜃᜓ ᜀᜅ᜔ ᜊᜌᜈ᜔",
+    "mahal ko ang bayan",
+    "ma-hal ko ang ba-yan",
+  ),
+  phrase(
+    "mabuhay",
+    "ᜋᜊᜓᜑᜌ᜔ ᜀᜅ᜔ ᜉᜒᜎᜒᜉᜒᜈᜐ᜔",
+    "mabuhay ang pilipinas",
+    "ma-bu-hay ang pi-li-pi-nas",
+  ),
 ];
 
 /* ------------------------------------------------------------------ */
@@ -117,14 +186,24 @@ const DIFFICULTIES: { id: Difficulty; label: string; sub: string }[] = [
  * lowercasing, trimming, collapsing spaces and folding those pairs.
  */
 const normalize = (s: string) =>
-  s.toLowerCase().trim().replace(/\s+/g, " ").replace(/o/g, "u").replace(/e/g, "i").replace(/r/g, "d");
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/o/g, "u")
+    .replace(/e/g, "i")
+    .replace(/r/g, "d");
 
 const isCorrect = (item: PracticeItem, input: string) => {
   const guess = normalize(input);
-  return !!guess && [item.latin, ...(item.altAnswers ?? [])].some((a) => normalize(a) === guess);
+  return (
+    !!guess &&
+    [item.latin, ...(item.altAnswers ?? [])].some((a) => normalize(a) === guess)
+  );
 };
 
-const pickRandom = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+const pickRandom = <T,>(arr: T[]): T =>
+  arr[Math.floor(Math.random() * arr.length)];
 
 const shuffle = <T,>(arr: T[]): T[] => {
   const a = [...arr];
@@ -136,7 +215,11 @@ const shuffle = <T,>(arr: T[]): T[] => {
 };
 
 /** Next unseen item. When the pool is exhausted the queue resets (never repeating the current card). */
-function nextItem(pool: PracticeItem[], used: Set<string>, current?: PracticeItem) {
+function nextItem(
+  pool: PracticeItem[],
+  used: Set<string>,
+  current?: PracticeItem,
+) {
   let nextUsed = new Set(used);
   let fresh = pool.filter((i) => !used.has(i.id));
   if (fresh.length === 0) {
@@ -156,8 +239,8 @@ function buildOptions(item: PracticeItem, pool: PracticeItem[]): string[] {
     .filter((p) => p.id !== item.id && normalize(p.latin) !== correctKey)
     .sort(
       (a, b) =>
-        Math.abs(a.latin.length - item.latin.length) - Math.abs(b.latin.length - item.latin.length) ||
-        Math.random() - 0.5
+        Math.abs(a.latin.length - item.latin.length) -
+          Math.abs(b.latin.length - item.latin.length) || Math.random() - 0.5,
     )
     .slice(0, 6);
 
@@ -189,7 +272,10 @@ function Prompt({ item }: { item: PracticeItem }) {
   const long = item.difficulty === "hard";
   return (
     <div className="pr-prompt">
-      <div className={`bb-hero pr-glyph${long ? " is-long" : ""}`} lang="tl-Tglg">
+      <div
+        className={`bb-hero pr-glyph${long ? " is-long" : ""}`}
+        lang="tl-Tglg"
+      >
         {item.baybayin}
       </div>
     </div>
@@ -201,7 +287,10 @@ function Prompt({ item }: { item: PracticeItem }) {
 /* ------------------------------------------------------------------ */
 
 function FlashcardMode({ difficulty }: { difficulty: Difficulty }) {
-  const pool = useMemo(() => PRACTICE_ITEMS.filter((i) => i.difficulty === difficulty), [difficulty]);
+  const pool = useMemo(
+    () => PRACTICE_ITEMS.filter((i) => i.difficulty === difficulty),
+    [difficulty],
+  );
 
   // state.used is the usedItemIds set for this session
   const [state, setState] = useState(() => nextItem(pool, new Set()));
@@ -247,7 +336,9 @@ function FlashcardMode({ difficulty }: { difficulty: Difficulty }) {
         ? {
             kind: "wrong",
             text: `Not quite. The answer is “${item.latin}”${
-              item.altAnswers?.length ? ` (also ${item.altAnswers.map((a) => `“${a}”`).join(", ")})` : ""
+              item.altAnswers?.length
+                ? ` (also ${item.altAnswers.map((a) => `“${a}”`).join(", ")})`
+                : ""
             }.`,
           }
         : showHint
@@ -255,7 +346,10 @@ function FlashcardMode({ difficulty }: { difficulty: Difficulty }) {
           : { kind: "", text: "" };
 
   return (
-    <div className="pr-card pr-card--flash" data-state={status === "idle" ? undefined : status}>
+    <div
+      className="pr-card pr-card--flash"
+      data-state={status === "idle" ? undefined : status}
+    >
       <Prompt item={item} />
 
       <div className="pr-answer">
@@ -271,22 +365,41 @@ function FlashcardMode({ difficulty }: { difficulty: Difficulty }) {
           autoCapitalize="none"
           autoCorrect="off"
           spellCheck={false}
-          placeholder={difficulty === "hard" ? "e.g. mahal kita" : difficulty === "medium" ? "e.g. bata" : "e.g. ba"}
+          placeholder={
+            difficulty === "hard"
+              ? "e.g. mahal kita"
+              : difficulty === "medium"
+                ? "e.g. bata"
+                : "e.g. ba"
+          }
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && check()}
         />
 
-        <div className="pr-feedback" role="status" aria-live="polite" data-kind={feedback.kind}>
+        <div
+          className="pr-feedback"
+          role="status"
+          aria-live="polite"
+          data-kind={feedback.kind}
+        >
           {feedback.text}
         </div>
 
         <div className="pr-actions">
           {status === "idle" && (
             <>
-              <button className="pr-btn primary" onClick={check} disabled={!input.trim()}>
+              <button
+                className="pr-btn primary"
+                onClick={check}
+                disabled={!input.trim()}
+              >
                 Check answer
               </button>
-              <button className="pr-btn outline" onClick={() => setShowHint((v) => !v)} aria-pressed={showHint}>
+              <button
+                className="pr-btn outline"
+                onClick={() => setShowHint((v) => !v)}
+                aria-pressed={showHint}
+              >
                 {showHint ? "Hide hint" : "Show hint"}
               </button>
               <button className="pr-btn outline" onClick={advance}>
@@ -320,14 +433,17 @@ function FlashcardMode({ difficulty }: { difficulty: Difficulty }) {
 /* ------------------------------------------------------------------ */
 
 function QuizMode({ difficulty }: { difficulty: Difficulty }) {
-  const pool = useMemo(() => PRACTICE_ITEMS.filter((i) => i.difficulty === difficulty), [difficulty]);
+  const pool = useMemo(
+    () => PRACTICE_ITEMS.filter((i) => i.difficulty === difficulty),
+    [difficulty],
+  );
 
   const makeRound = useCallback(
     (used: Set<string>, current?: PracticeItem) => {
       const n = nextItem(pool, used, current);
       return { ...n, options: buildOptions(n.item, pool) };
     },
-    [pool]
+    [pool],
   );
 
   const [round, setRound] = useState(() => makeRound(new Set()));
@@ -355,10 +471,22 @@ function QuizMode({ difficulty }: { difficulty: Difficulty }) {
   };
 
   const optionClass = (opt: string) =>
-    "pr-option" + (selected === null ? "" : isCorrect(item, opt) ? " is-correct" : opt === selected ? " is-wrong" : "");
+    "pr-option" +
+    (selected === null
+      ? ""
+      : isCorrect(item, opt)
+        ? " is-correct"
+        : opt === selected
+          ? " is-wrong"
+          : "");
 
   return (
-    <div className="pr-card pr-card--quiz" data-state={selected === null ? undefined : answeredRight ? "correct" : "wrong"}>
+    <div
+      className="pr-card pr-card--quiz"
+      data-state={
+        selected === null ? undefined : answeredRight ? "correct" : "wrong"
+      }
+    >
       <div className="pr-score" aria-live="polite">
         <div className="pr-stats">
           <span className="pr-stat">
@@ -370,7 +498,14 @@ function QuizMode({ difficulty }: { difficulty: Difficulty }) {
             <span className="secondary">accuracy</span>
           </span>
         </div>
-        <div className="pr-meter" role="progressbar" aria-label="Accuracy" aria-valuemin={0} aria-valuemax={100} aria-valuenow={accuracy}>
+        <div
+          className="pr-meter"
+          role="progressbar"
+          aria-label="Accuracy"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={accuracy}
+        >
           <span style={{ width: `${accuracy}%` }} />
         </div>
       </div>
@@ -379,7 +514,12 @@ function QuizMode({ difficulty }: { difficulty: Difficulty }) {
 
       <div className="pr-options" role="group" aria-label="Answer choices">
         {options.map((opt) => (
-          <button key={opt} className={optionClass(opt)} onClick={() => choose(opt)} disabled={selected !== null}>
+          <button
+            key={opt}
+            className={optionClass(opt)}
+            onClick={() => choose(opt)}
+            disabled={selected !== null}
+          >
             {opt}
           </button>
         ))}
@@ -390,11 +530,20 @@ function QuizMode({ difficulty }: { difficulty: Difficulty }) {
           className="pr-feedback"
           role="status"
           aria-live="polite"
-          data-kind={selected === null ? "" : answeredRight ? "correct" : "wrong"}
+          data-kind={
+            selected === null ? "" : answeredRight ? "correct" : "wrong"
+          }
         >
-          {selected !== null && (answeredRight ? "Correct." : `Not quite. The answer is “${item.latin}”.`)}
+          {selected !== null &&
+            (answeredRight
+              ? "Correct."
+              : `Not quite. The answer is “${item.latin}”.`)}
         </div>
-        <button className="pr-btn primary" onClick={next} disabled={selected === null}>
+        <button
+          className="pr-btn primary"
+          onClick={next}
+          disabled={selected === null}
+        >
           Next question
         </button>
       </div>
@@ -406,12 +555,17 @@ function QuizMode({ difficulty }: { difficulty: Difficulty }) {
 /* Page: Pagsasanay                                                    */
 /* ------------------------------------------------------------------ */
 
-const MODE_LABEL: Record<Mode, string> = { flashcard: "Flashcards", quiz: "Quiz" };
+const MODE_LABEL: Record<Mode, string> = {
+  flashcard: "Flashcards",
+  quiz: "Quiz",
+};
 
 function Practice() {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [mode, setMode] = useState<Mode>("flashcard");
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  const [menuOpen, setMenuOpen] = useState(false);
+
   // false: choosing a mode and difficulty. true: a session is running.
   const [started, setStarted] = useState(false);
   const bodyRef = useRef<HTMLElement>(null);
@@ -438,19 +592,44 @@ function Practice() {
       <main className="pr-body" ref={bodyRef}>
         <nav className="nav">
           <div className="nav-inner">
-            <Link to="/" className="brand">
-              <span className="bb-key" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
+            <a
+              href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+              className="brand"
+            >
+              <span className="bb-key" aria-hidden="true">
+                ᜊᜌ᜔ᜊᜌᜒᜈ᜔
+              </span>
               <span className="brand-name">Baybayin</span>
-            </Link>
+            </a>
 
-            <ul className="nav-links">
-              <li><Link to="/">About</Link></li>
-              <li><Link to="/keyboard">Keyboard</Link></li>
-              <li><Link to="/lessons">Lessons</Link></li>
-              <li><Link to="/practice" aria-current="page">Practice</Link></li>
+            <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
+              <li>
+                <Link to="/">About</Link>
+              </li>
+              <li>
+                <Link to="/keyboard">Keyboard</Link>
+              </li>
+              <li>
+                <Link to="/lessons">Lessons</Link>
+              </li>
+              <li>
+                <Link to="/practice">Practice</Link>
+              </li>
             </ul>
 
-            <button className="icon-btn" onClick={() => setTheme(nextTheme)} aria-label={`Switch to ${nextTheme} mode`}>
+            <button
+              className="nav-toggle"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle navigation"
+            >
+              ☰
+            </button>
+
+            <button
+              className="icon-btn"
+              onClick={() => setTheme(nextTheme)}
+              aria-label={`Switch to ${nextTheme} mode`}
+            >
               {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
             </button>
           </div>
@@ -460,9 +639,17 @@ function Practice() {
           {started ? (
             <div className="pr-stage" key="session">
               <div className="pr-status">
-                <div className="pr-pills" role="group" aria-label="Current practice settings">
-                  <span className="pr-pill" title="Mode">{MODE_LABEL[mode]}</span>
-                  <span className="pr-pill" title={`Difficulty: ${diff.sub}`}>{diff.label}</span>
+                <div
+                  className="pr-pills"
+                  role="group"
+                  aria-label="Current practice settings"
+                >
+                  <span className="pr-pill" title="Mode">
+                    {MODE_LABEL[mode]}
+                  </span>
+                  <span className="pr-pill" title={`Difficulty: ${diff.sub}`}>
+                    {diff.label}
+                  </span>
                 </div>
                 <button className="pr-change" onClick={() => setSession(false)}>
                   Change mode
@@ -470,7 +657,10 @@ function Practice() {
               </div>
 
               {mode === "flashcard" ? (
-                <FlashcardMode key={`f-${difficulty}`} difficulty={difficulty} />
+                <FlashcardMode
+                  key={`f-${difficulty}`}
+                  difficulty={difficulty}
+                />
               ) : (
                 <QuizMode key={`q-${difficulty}`} difficulty={difficulty} />
               )}
@@ -479,16 +669,24 @@ function Practice() {
             <div className="pr-stage" key="setup">
               <header className="pr-head">
                 <h1>Practice</h1>
-                <p className="secondary">Read the Baybayin, then type how it sounds in Latin letters.</p>
+                <p className="secondary">
+                  Read the Baybayin, then type how it sounds in Latin letters.
+                </p>
               </header>
 
               <div className="pr-controls">
                 <div className="pr-seg" role="group" aria-label="Practice mode">
-                  <button aria-pressed={mode === "flashcard"} onClick={() => setMode("flashcard")}>
+                  <button
+                    aria-pressed={mode === "flashcard"}
+                    onClick={() => setMode("flashcard")}
+                  >
                     Flashcards
                     <small>Endless, no score</small>
                   </button>
-                  <button aria-pressed={mode === "quiz"} onClick={() => setMode("quiz")}>
+                  <button
+                    aria-pressed={mode === "quiz"}
+                    onClick={() => setMode("quiz")}
+                  >
                     Quiz
                     <small>Pick the answer</small>
                   </button>
@@ -496,14 +694,21 @@ function Practice() {
 
                 <div className="pr-seg" role="group" aria-label="Difficulty">
                   {DIFFICULTIES.map((d) => (
-                    <button key={d.id} aria-pressed={difficulty === d.id} onClick={() => setDifficulty(d.id)}>
+                    <button
+                      key={d.id}
+                      aria-pressed={difficulty === d.id}
+                      onClick={() => setDifficulty(d.id)}
+                    >
                       {d.label}
                       <small>{d.sub}</small>
                     </button>
                   ))}
                 </div>
 
-                <button className="pr-btn primary pr-start" onClick={() => setSession(true)}>
+                <button
+                  className="pr-btn primary pr-start"
+                  onClick={() => setSession(true)}
+                >
                   Start practice
                 </button>
               </div>
@@ -512,11 +717,13 @@ function Practice() {
         </div>
       </main>
       <footer className="footer">
-          <div className="section-inner">
-            <span className="bb-inline" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
-            <span>Learn · Practice · Write</span>
-          </div>
-        </footer>
+        <div className="section-inner">
+          <span className="bb-inline" aria-hidden="true">
+            ᜊᜌ᜔ᜊᜌᜒᜈ᜔
+          </span>
+          <span>Learn · Practice · Write</span>
+        </div>
+      </footer>
     </div>
   );
 }
