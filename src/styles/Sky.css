@@ -1,0 +1,159 @@
+/*
+  Sky background for .lessons-page.
+  Pure CSS shapes, no images, no canvas. Only transform is animated.
+*/
+
+.lessons-page {
+  /* Theme: change the look here. */
+  --cloud-color: light-dark(#8ec9e8, #e8d4a2); /* sky blue / warm beige-gold */
+  --cloud-strength: 1; /* overall opacity multiplier */
+
+  /* Own stacking context, so the sky (z-index: -1) stays behind the page
+     content without touching the position or z-index of any other element. */
+  isolation: isolate;
+}
+
+/* Clouds read stronger on a dark page, so dial them back. */
+:root[data-theme="dark"] .lessons-page {
+  --cloud-strength: 0.55;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .lessons-page {
+    --cloud-strength: 0.55;
+  }
+}
+
+/* Fixed to the viewport: it stays put while the page scrolls and takes no
+   space in the layout, so nothing shifts. */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+/* Each layer is two screens tall and holds the same clouds twice.
+   Sliding it down by exactly one screen (50% of its own height) lands on an
+   identical picture, so the loop never shows a jump or an empty gap. */
+.sky-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  opacity: calc(var(--o) * var(--cloud-strength));
+  filter: blur(var(--blur));
+  will-change: transform;
+  animation: sky-rise var(--dur) linear infinite;
+}
+
+/* Parallax: far is small, slow and sharp. Near is large, faster and soft. */
+.sky-far {
+  --cw: clamp(120px, 14vw, 220px);
+  --o: 0.5;
+  --blur: 0.5px;
+  --dur: 90s;
+}
+.sky-mid {
+  --cw: clamp(180px, 22vw, 340px);
+  --o: 0.45;
+  --blur: 1.5px;
+  --dur: 65s;
+}
+.sky-near {
+  --cw: clamp(260px, 34vw, 520px);
+  --o: 0.3;
+  --blur: 3px;
+  --dur: 45s;
+}
+
+@keyframes sky-rise {
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* One screen's worth of clouds */
+.sky-set {
+  position: relative;
+  height: 50%;
+}
+
+/* A cloud is a flat-bottomed pill plus two round bumps, all one solid color.
+   The layer (not each cloud) carries the opacity, so overlapping shapes merge
+   into one soft silhouette instead of showing darker seams. */
+.cloud {
+  --w: calc(var(--cw) * var(--s));
+  --h: calc(var(--w) * 0.56);
+
+  position: absolute;
+  left: var(--x);
+  /* Clamp so a cloud never crosses the top or bottom of its half. */
+  top: min(var(--y), calc(100% - var(--h)));
+  width: var(--w);
+  height: var(--h);
+}
+
+/* Base: the flat, rounded body */
+.cloud::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 54%;
+  border-radius: 999px;
+  background: var(--cloud-color);
+}
+
+/* Bump A (left) */
+.cloud::after {
+  content: "";
+  position: absolute;
+  width: var(--a-w, 44%);
+  aspect-ratio: 1;
+  left: var(--a-l, 16%);
+  bottom: var(--a-b, 20%);
+  border-radius: 50%;
+  background: var(--cloud-color);
+}
+
+/* Bump B (right) */
+.cloud i {
+  position: absolute;
+  width: var(--b-w, 34%);
+  aspect-ratio: 1;
+  right: var(--b-r, 18%);
+  bottom: var(--b-b, 22%);
+  border-radius: 50%;
+  background: var(--cloud-color);
+}
+
+/* Shape variants: move and resize the bumps */
+.cloud.v2 {
+  --a-w: 36%;
+  --a-l: 10%;
+  --a-b: 22%;
+  --b-w: 44%;
+  --b-r: 14%;
+  --b-b: 20%;
+}
+.cloud.v3 {
+  --a-w: 40%;
+  --a-l: 28%;
+  --b-w: 28%;
+  --b-r: 12%;
+  --b-b: 22%;
+}
+
+/* Respect the system setting: show a still sky */
+@media (prefers-reduced-motion: reduce) {
+  .sky-layer {
+    animation: none;
+  }
+}

@@ -183,7 +183,7 @@ function Home() {
           </a>
 
           <ul className="nav-links">
-            <li><a href="#about">About</a></li>
+            <li><Link to="/">About</Link></li>
             <li><Link to="/keyboard">Keyboard</Link></li>
             <li><Link to="/lessons">Lessons</Link></li>
             <li><Link to="/practice">Practice</Link></li>
@@ -209,11 +209,11 @@ function Home() {
               words with a live keyboard.
             </p>
             <div className="btn-row">
-              <a href="#course" className="btn">Start learning</a>
+              <a href="/Lessons" className="btn">Start learning</a>
               <a href="/keyboard" className="btn outline">Try the keyboard</a>
             </div>
             <p className="hero-facts secondary">
-              17 basic characters · 6 modules · practice at your own pace
+              17 basic characters · 6 lessons · practice at your own pace
             </p>
           </div>
 

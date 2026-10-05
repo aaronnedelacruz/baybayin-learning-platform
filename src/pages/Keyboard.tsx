@@ -271,8 +271,7 @@ function Keyboard() {
         <header className="kb-head">
           <h1>Baybayin keyboard</h1>
           <p>
-            Type with your keyboard or tap the characters below. Letters turn
-            into Baybayin as you type.
+            Type with your keyboard or tap the characters below. Letters turn into Baybayin as you type.
           </p>
         </header>
 

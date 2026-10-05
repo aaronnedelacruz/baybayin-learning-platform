@@ -1,0 +1,539 @@
+/*
+  Lesson1.css. Every selector lives under .lesson-page so it cannot leak into
+  other pages. Colors, fonts and glyph sizes come from the tokens in index.css
+  (.bb-hero, .bb-card, .bb-key, var(--baybayin)).
+
+  Layout: the page is exactly one screen tall and never scrolls. From top to
+  bottom: site nav, lesson header + progress, step tabs, the scrolling content
+  (.lesson-content-body), and a fixed pagination bar.
+*/
+
+.lesson-page {
+  --lp-ok: light-dark(#2f6b45, #8fd6a8);
+  --lp-ok-bg: light-dark(rgba(47, 107, 69, 0.14), rgba(143, 214, 168, 0.16));
+  --lp-bad: light-dark(#9e2a2b, #f0908c);
+  --lp-bad-bg: light-dark(rgba(158, 42, 43, 0.12), rgba(240, 144, 140, 0.14));
+  --lp-radius: 20px;
+  --lp-pad: clamp(16px, 3vw, 28px);
+
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-page .lp-shell {
+  flex: 1;
+  min-height: 0; /* lets the content area shrink and scroll instead of growing the page */
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: clamp(10px, 2vh, 20px) clamp(12px, 3vw, 24px)
+    calc(clamp(10px, 2vh, 20px) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.6vh, 14px);
+}
+
+/* ---------- Top: header and progress ---------- */
+
+.lesson-page .lp-top {
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--lp-radius);
+  padding: clamp(12px, 2vh, 18px) clamp(16px, 3vw, 24px);
+}
+.lesson-page .lp-toprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  flex-wrap: wrap;
+}
+.lesson-page .lp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-text);
+  text-decoration: none;
+}
+.lesson-page .lp-back:hover {
+  text-decoration: underline;
+}
+.lesson-page .lp-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.lesson-page .lp-chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.lesson-page .lp-top h1 {
+  font-size: clamp(26px, 4vw, 36px);
+  margin: 6px 0 2px;
+}
+.lesson-page .lp-sub {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.lesson-page .lp-progress {
+  height: 8px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+.lesson-page .lp-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+/* ---------- Middle: tabs ---------- */
+
+.lesson-page .lp-tabs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-border) transparent;
+}
+.lesson-page .lp-tab {
+  flex-shrink: 0;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+.lesson-page .lp-tab:hover {
+  filter: none;
+  background: var(--accent-bg);
+}
+.lesson-page .lp-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ---------- Middle: the only scrolling area ---------- */
+
+.lesson-page .lesson-content-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--lp-radius);
+  padding: var(--lp-pad);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-border) transparent;
+}
+.lesson-page .lesson-content-body::-webkit-scrollbar {
+  width: 8px;
+}
+.lesson-page .lesson-content-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.lesson-page .lesson-content-body::-webkit-scrollbar-thumb {
+  background: var(--accent-border);
+  border-radius: 999px;
+}
+.lesson-page .lesson-content-body:focus-visible {
+  outline-offset: -3px;
+}
+
+.lesson-page .lp-section {
+  animation: lp-in 0.25s ease;
+}
+@keyframes lp-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lesson-page .lp-section h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 0 0 14px;
+}
+.lesson-page .lp-section p {
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.7;
+  margin: 0 0 14px;
+  color: var(--text-h);
+}
+.lesson-page .lp-section small {
+  font-size: 14px;
+  color: var(--text);
+}
+.lesson-page .lp-list {
+  margin: 0 0 20px;
+  padding-left: 22px;
+  line-height: 1.8;
+  color: var(--text-h);
+}
+
+/* ---------- Shared pieces ---------- */
+
+.lesson-page .lp-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(14px, 2vw, 20px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lesson-page .lp-card h3 {
+  font-size: 22px;
+  margin: 0 0 6px;
+}
+.lesson-page .lp-card h4 {
+  font-size: 15px;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+.lesson-page .lp-card p {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.lesson-page .lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 600 15px/1 var(--sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.lesson-page .lp-btn.outline {
+  background: transparent;
+  border-color: var(--nav);
+  color: var(--text-h);
+}
+.lesson-page .lp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+}
+.lesson-page .lp-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Step 1: vowels ---------- */
+
+.lesson-page .lp-vowels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 14px;
+}
+.lesson-page .lp-glyph {
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+/* ---------- Step 2: comparison, side by side ---------- */
+
+.lesson-page .lp-compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.lesson-page .lp-compare-arrow {
+  align-self: center;
+  color: var(--accent-text);
+}
+.lesson-page .lp-letters {
+  font-size: clamp(26px, 4vw, 36px) !important;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  margin: 0 0 4px !important;
+}
+.lesson-page .lp-letters-bb {
+  letter-spacing: 0.15em;
+  margin: 0 0 4px !important;
+  line-height: 1.3;
+  color: var(--text-h);
+}
+
+/* ---------- Step 3: flashcard ---------- */
+
+.lesson-page .lp-flash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(18px, 4vh, 36px) 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.lesson-page .lp-flash-glyph {
+  line-height: 1.2;
+}
+.lesson-page .lp-flash-answer {
+  min-height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.lesson-page .lp-flash-answer strong {
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--text-h);
+}
+
+/* ---------- Step 4: word breakdowns ---------- */
+
+.lesson-page .lp-words {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 14px;
+}
+.lesson-page .lp-word-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+.lesson-page .lp-word-head h3 {
+  margin: 0;
+}
+.lesson-page .lp-word-bb {
+  line-height: 1.4;
+}
+.lesson-page .lp-parts {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 12px;
+  padding: 0;
+}
+.lesson-page .lp-parts li {
+  min-width: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.lesson-page .lp-parts li.is-vowel {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+.lesson-page .lp-parts .bb-key {
+  line-height: 1.3;
+}
+.lesson-page .lp-note {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+}
+
+/* ---------- Step 5: quiz ---------- */
+
+.lesson-page .lp-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 6px 0 16px;
+}
+.lesson-page .lp-option {
+  position: relative;
+  padding: clamp(12px, 2.4vh, 22px) 8px;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.lesson-page .lp-option:hover {
+  filter: none;
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+.lesson-page .lp-option.is-correct {
+  border-color: var(--lp-ok);
+  background: var(--lp-ok-bg);
+}
+.lesson-page .lp-option.is-wrong {
+  border-color: var(--lp-bad);
+  background: var(--lp-bad-bg);
+}
+.lesson-page .lp-option-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.lesson-page .lp-option.is-correct .lp-option-icon {
+  color: var(--lp-ok);
+}
+.lesson-page .lp-option.is-wrong .lp-option-icon {
+  color: var(--lp-bad);
+}
+.lesson-page .lp-feedback {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.lesson-page .lp-feedback.is-correct {
+  background: var(--lp-ok-bg);
+  border-color: var(--lp-ok);
+}
+.lesson-page .lp-feedback.is-wrong {
+  background: var(--lp-bad-bg);
+  border-color: var(--lp-bad);
+}
+
+/* ---------- Step 6: summary ---------- */
+
+.lesson-page .lp-checks {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+.lesson-page .lp-checks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: clamp(16px, 1.6vw, 18px);
+  color: var(--text-h);
+}
+.lesson-page .lp-checks li:last-child {
+  border-bottom: 0;
+}
+.lesson-page .lp-check {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.lesson-page .lp-done {
+  font-weight: 700;
+  color: var(--lp-ok) !important;
+}
+
+/* ---------- Bottom: fixed pagination bar ---------- */
+
+.lesson-page .lp-bar {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--lp-radius);
+  padding: 10px 14px;
+}
+.lesson-page .lp-bar .lp-btn:first-child {
+  justify-self: start;
+}
+.lesson-page .lp-bar-end {
+  justify-self: end;
+}
+.lesson-page .lp-indicator {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-align: center;
+}
+.lesson-page .lp-indicator-name {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .lesson-page .lp-compare {
+    grid-template-columns: 1fr;
+  }
+  .lesson-page .lp-compare-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+  .lesson-page .lp-indicator-name {
+    display: none;
+  }
+  .lesson-page .lp-bar {
+    padding: 8px 10px;
+  }
+  .lesson-page .lp-btn {
+    padding: 10px 14px;
+  }
+}
+
+/* Short screens: tighten the header so the content area keeps its room */
+@media (max-height: 700px) {
+  .lesson-page .lp-sub {
+    display: none;
+  }
+  .lesson-page .lp-top h1 {
+    margin-top: 2px;
+  }
+  .lesson-page .lp-progress {
+    margin-top: 8px;
+  }
+  .lesson-page .bb-card {
+    font-size: 48px;
+  }
+  .lesson-page .bb-hero {
+    font-size: 72px;
+  }
+}

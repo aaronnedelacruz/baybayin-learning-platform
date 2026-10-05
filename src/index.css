@@ -26,7 +26,7 @@
 
   --accent: #e09f3e; /* primary buttons and highlights */
   --on-accent: #1a0d07; /* text that sits on --accent */
-  --accent-bg: rgba(224, 159, 62, 0.18);
+  --accent-bg: rgba(224, 159, 62, 0.18);  
   --accent-border: rgba(224, 159, 62, 0.6);
   --accent-text: light-dark(#9e2a2b, #e09f3e); /* accent used as text color */
 

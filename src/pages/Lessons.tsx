@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Moon, Sun, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 import "../styles/Lessons.css";
+import SkyBackground from "../lib/Skybackground.tsx";
 
 type Theme = "light" | "dark";
 
@@ -16,7 +17,7 @@ function readTheme(): Theme {
 
 function Lessons() {
   const [theme, setTheme] = useState<Theme>(readTheme);
-  const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
+  const [openLessons, setOpenLessons] = useState<number[]>([]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -27,12 +28,54 @@ function Lessons() {
 
   const nextTheme: Theme = theme === "light" ? "dark" : "light";
 
-  const toggleAnswer = (key: string) => {
-    setRevealedAnswers((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  const lessons = [
+  {
+    title: "Lesson 1 - Patinig (ᜉᜆᜒᜈᜒᜄ᜔) / Vowels",
+    description:
+      "The first step in learning Baybayin begins with its three vowel characters, known as Patinig. In this lesson, you'll learn how to recognize, pronounce, and read each one while understanding why three symbols are enough to represent the five modern Filipino vowels.",
+    button: "Start Lesson",
+    path: "/lessons/1",
+  },
+  {
+    title: "Lesson 2 - Katinig (ᜃᜆᜒᜈᜒᜄ᜔) / Consonants",
+    description:
+      "Learn the fourteen Katinig (consonant) characters that make up the core of the Baybayin writing system. You'll discover that every consonant already carries the vowel A, recognize each character by sight, and practice reading them through familiar Filipino words.",
+    button: "Start Lesson",
+    path: "/lessons/2",
+  },
+  {
+    title: "Lesson 3 - Kudlit (ᜃᜓᜇ᜔ᜎᜒᜆ᜔) / Vowel Marks",
+    description:
+      "Discover how the kudlit changes the sound of a Baybayin character. You'll learn how marks placed above or below a consonant replace its built-in A sound with I/E or U/O, allowing you to write many more syllables.",
+    button: "Start Lesson",
+    path: "/lessons/3",
+  },
+  {
+    title: "Lesson 4 - Pamudpod (ᜉᜋᜓᜇ᜔ᜉᜓᜇ᜔) / Virama",
+    description:
+      "Learn how the pamudpod (virama) removes the built-in vowel from a consonant. By the end of this lesson, you'll be able to write syllables that end in consonants and understand how modern Baybayin represents words more accurately.",
+    button: "Start Lesson",
+    path: "/lessons/4",
+  },
+  {
+    title: "Lesson 5 - Pantig (ᜉᜈ᜔ᜆᜒᜄ᜔) / Syllables",
+    description:
+      "Baybayin is written by syllables, not individual letters. In this lesson, you'll learn how to break Filipino words into syllables, apply the writing rules you've learned, and build complete Baybayin words one syllable at a time.",
+    button: "Start Lesson",
+    path: "/lessons/5",
+  },
+  {
+    title: "Lesson 6 - Pagsulat ng mga Salita (ᜉᜄ᜔ᜐᜓᜎᜆ᜔ ᜈᜅ᜔ ᜋᜄ ᜐᜎᜒᜆ) / Writing Words",
+    description:
+      "Bring together everything you've learned throughout the course. You'll practice reading and writing complete words, names, and simple phrases while applying vowels, consonants, kudlit, and pamudpod with confidence.",
+    button: "Start Lesson",
+    path: "/lessons/6",
+  },
+];
 
   return (
     <div className="home lessons-page">
+      <SkyBackground />
       <nav className="nav">
         <div className="nav-inner">
           <Link to="/" className="brand">
@@ -74,292 +117,46 @@ function Lessons() {
         </header>
 
         <div className="lessons-content">
-          {/* Section 1: Patinig (Vowels) */}
-          <section className="lesson-card" id="patinig">
-            <div className="lesson-badge">Lesson 1</div>
-            <h2>1. Patinig (Vowels)</h2>
-            
-            <h3>What are Patinig?</h3>
-            <p>
-              Patinig are the vowel characters of Baybayin. Unlike the Latin alphabet which has five vowels (A, E, I, O, U), Baybayin only has <strong>three vowel symbols</strong>.
-            </p>
+          {lessons.map((lesson, index) => {
+            const open = openLessons.includes(index);
 
-            <div className="table-wrapper">
-              <table className="lesson-table">
-                <thead>
-                  <tr>
-                    <th>Baybayin</th>
-                    <th>Sound</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="bb-cell">ᜀ</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td className="bb-cell">ᜁ</td>
-                    <td>I / E</td>
-                  </tr>
-                  <tr>
-                    <td className="bb-cell">ᜂ</td>
-                    <td>U / O</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            return (
+              <div
+                className={`lesson-card${open ? " is-open" : ""}`}
+                key={lesson.title}
+              >
+                <button
+                  type="button"
+                  className="lesson-header"
+                  aria-expanded={open}
+                  aria-controls={`lesson-panel-${index}`}
+                  onClick={() =>
+                    setOpenLessons((prev) =>
+                      prev.includes(index)
+                        ? prev.filter((i) => i !== index)
+                        : [...prev, index],
+                    )
+                  }
+                >
+                  <span className="lesson-dot" aria-hidden="true" />
+                  <span className="lesson-title">{lesson.title}</span>
+                  <span className="lesson-toggle" aria-hidden="true">
+                    <ChevronDown size={22} />
+                  </span>
+                </button>
 
-            <div className="callout-box">
-              <p><strong>Notice that:</strong></p>
-              <ul>
-                <li>E and I share one symbol (ᜁ).</li>
-                <li>O and U share one symbol (ᜂ).</li>
-              </ul>
-              <p>This is because traditional Baybayin does not distinguish between those vowel sounds.</p>
-            </div>
+                {open && (
+                  <div className="lesson-preview" id={`lesson-panel-${index}`}>
+                    <p>{lesson.description}</p>
 
-            <h3>Reading Patinig</h3>
-            <div className="example-grid">
-              <div className="example-item"><span className="bb-glyph">ᜀ</span> → <strong>a</strong></div>
-              <div className="example-item"><span className="bb-glyph">ᜁ</span> → <strong>i</strong></div>
-              <div className="example-item"><span className="bb-glyph">ᜁ</span> → <strong>e</strong></div>
-              <div className="example-item"><span className="bb-glyph">ᜂ</span> → <strong>u</strong></div>
-              <div className="example-item"><span className="bb-glyph">ᜂ</span> → <strong>o</strong></div>
-            </div>
-            <p className="note">The correct pronunciation depends on the context of the word.</p>
-
-            <div className="practice-box">
-              <h4>Practice: Can you read these?</h4>
-              <div className="bb-prompt">ᜀ &nbsp; ᜁ &nbsp; ᜂ</div>
-              <button className="btn outline sm" onClick={() => toggleAnswer("patinig")}>
-                {revealedAnswers["patinig"] ? "Hide Answer" : "Show Answer"}
-              </button>
-              {revealedAnswers["patinig"] && (
-                <div className="practice-answer">
-                  <CheckCircle2 size={16} /> <span><strong>Answer:</strong> a &nbsp;|&nbsp; i / e &nbsp;|&nbsp; u / o</span>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Section 2: Katinig (Consonants) */}
-          <section className="lesson-card" id="katinig">
-            <div className="lesson-badge">Lesson 2</div>
-            <h2>2. Katinig (Consonants)</h2>
-            
-            <h3>Every consonant already has an "A"</h3>
-            <p>
-              This is the most important rule in Baybayin: <strong>Every consonant automatically includes the vowel sound "A".</strong>
-            </p>
-
-            <div className="table-wrapper">
-              <table className="lesson-table">
-                <thead>
-                  <tr>
-                    <th>Baybayin</th>
-                    <th>Read as</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td className="bb-cell">ᜃ</td><td>ka</td></tr>
-                  <tr><td className="bb-cell">ᜄ</td><td>ga</td></tr>
-                  <tr><td className="bb-cell">ᜊ</td><td>ba</td></tr>
-                  <tr><td className="bb-cell">ᜋ</td><td>ma</td></tr>
-                  <tr><td className="bb-cell">ᜐ</td><td>sa</td></tr>
-                </tbody>
-              </table>
-            </div>
-
-            <p className="note">Notice that none of them are just "k", "g", or "b". They always include the vowel "a".</p>
-
-            <h3>Complete Consonants Chart</h3>
-            <div className="consonants-grid">
-              {[
-                { bb: "ᜃ", sound: "ka" }, { bb: "ᜄ", sound: "ga" }, { bb: "ᜅ", sound: "nga" },
-                { bb: "ᜆ", sound: "ta" }, { bb: "ᜇ", sound: "da / ra" }, { bb: "ᜈ", sound: "na" },
-                { bb: "ᜉ", sound: "pa" }, { bb: "ᜊ", sound: "ba" }, { bb: "ᜋ", sound: "ma" },
-                { bb: "ᜌ", sound: "ya" }, { bb: "ᜍ", sound: "ra" }, { bb: "ᜎ", sound: "la" },
-                { bb: "ᜏ", sound: "wa" }, { bb: "ᜐ", sound: "sa" }, { bb: "ᜑ", sound: "ha" },
-              ].map((item) => (
-                <div key={item.bb} className="consonant-card">
-                  <span className="bb-glyph">{item.bb}</span>
-                  <span className="sound">{item.sound}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="practice-box">
-              <h4>Practice: Read this character</h4>
-              <div className="bb-prompt">ᜊ</div>
-              <button className="btn outline sm" onClick={() => toggleAnswer("katinig")}>
-                {revealedAnswers["katinig"] ? "Hide Answer" : "Show Answer"}
-              </button>
-              {revealedAnswers["katinig"] && (
-                <div className="practice-answer">
-                  <CheckCircle2 size={16} /> <span><strong>Answer:</strong> ba &nbsp;(<em>Not "b"</em>)</span>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Section 3: Kudlit */}
-          <section className="lesson-card" id="kudlit">
-            <div className="lesson-badge">Lesson 3</div>
-            <h2>3. Kudlit</h2>
-            <h3>Changing the Vowel</h3>
-            <p>
-              Every consonant starts with the vowel "A". To change the vowel sound, Baybayin adds a small diacritical mark called a <strong>kudlit</strong>.
-            </p>
-
-            <div className="kudlit-rules">
-              <div className="kudlit-card">
-                <h4>Kudlit Above ( top )</h4>
-                <p>Changes <strong>A</strong> into <strong>I or E</strong></p>
-                <div className="transformation">
-                  <span>ᜃ <small>(ka)</small></span>
-                  <ChevronRight size={18} />
-                  <span className="highlight">ᜃᜒ <small>(ki / ke)</small></span>
-                </div>
+                    <Link to={lesson.path} className="btn">
+                      {lesson.button}
+                    </Link>
+                  </div>
+                )}
               </div>
-
-              <div className="kudlit-card">
-                <h4>Kudlit Below ( bottom )</h4>
-                <p>Changes <strong>A</strong> into <strong>U or O</strong></p>
-                <div className="transformation">
-                  <span>ᜃ <small>(ka)</small></span>
-                  <ChevronRight size={18} />
-                  <span className="highlight">ᜃᜓ <small>(ku / ko)</small></span>
-                </div>
-              </div>
-            </div>
-
-            <h3>Full Example</h3>
-            <div className="example-row">
-              <div className="ex-pill"><span className="bb-glyph">ᜊ</span> = ba</div>
-              <div className="ex-pill"><span className="bb-glyph">ᜊᜒ</span> = bi / be</div>
-              <div className="ex-pill"><span className="bb-glyph">ᜊᜓ</span> = bu / bo</div>
-            </div>
-
-            <div className="practice-box">
-              <h4>Practice: Read these characters</h4>
-              <div className="bb-prompt">ᜋ &nbsp; ᜋᜒ &nbsp; ᜋᜓ</div>
-              <button className="btn outline sm" onClick={() => toggleAnswer("kudlit")}>
-                {revealedAnswers["kudlit"] ? "Hide Answer" : "Show Answer"}
-              </button>
-              {revealedAnswers["kudlit"] && (
-                <div className="practice-answer">
-                  <CheckCircle2 size={16} /> <span><strong>Answer:</strong> ma &nbsp;|&nbsp; mi / me &nbsp;|&nbsp; mu / mo</span>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Section 4: Pamudpod */}
-          <section className="lesson-card" id="pamudpod">
-            <div className="lesson-badge">Lesson 4</div>
-            <h2>4. Pamudpod</h2>
-            <h3>Removing the Vowel</h3>
-            <p>
-              Sometimes a word ends with a standalone consonant sound.
-              <br />
-              For example: In the word <strong>bundok</strong>, the final sound is <strong>k</strong>, not <strong>ka</strong>.
-            </p>
-            <p>
-              Since every consonant automatically includes "A", Baybayin uses a mark called the <strong>pamudpod (᜔)</strong> to remove the vowel.
-            </p>
-
-            <div className="transformation-box">
-              <span className="bb-glyph">ᜃ</span> <small>(ka)</small>
-              <span className="plus">+</span>
-              <span className="bb-glyph">᜔</span> <small>(pamudpod)</small>
-              <ChevronRight size={20} />
-              <span className="bb-glyph highlight">ᜃ᜔</span> <small>(k)</small>
-            </div>
-
-            <div className="example-grid">
-              <div className="example-item"><span className="bb-glyph">ᜊ</span> = ba</div>
-              <div className="example-item"><span className="bb-glyph">ᜊ᜔</span> = b</div>
-              <div className="example-item"><span className="bb-glyph">ᜋ</span> = ma</div>
-              <div className="example-item"><span className="bb-glyph">ᜋ᜔</span> = m</div>
-            </div>
-
-            <div className="callout-box warning">
-              <p>Without the pamudpod, <strong>ᜊ</strong> always means <strong>ba</strong>, never just <strong>b</strong>.</p>
-            </div>
-          </section>
-
-          {/* Section 5: Pantig (Syllables) */}
-          <section className="lesson-card" id="pantig">
-            <div className="lesson-badge">Lesson 5</div>
-            <h2>5. Pantig (Syllables)</h2>
-            <h3>Baybayin is written by syllables</h3>
-            <p>
-              This is the biggest difference from English writing:
-            </p>
-            <ul>
-              <li><strong>English</strong> writes letter-by-letter: <code>B - A - Y - B - A - Y - I - N</code></li>
-              <li><strong>Baybayin</strong> writes syllable-by-syllable: <code>ba - y - ba - yin</code></li>
-            </ul>
-            <p><strong>Always think about the sound, not the individual letters.</strong></p>
-
-            <h3>Word Breakdown Examples</h3>
-            <div className="breakdown-list">
-              <div className="breakdown-card">
-                <div className="word">Word: <strong>bahay</strong></div>
-                <div className="syllables">Syllables: <code>ba - hay</code></div>
-                <div className="result">Baybayin: <span className="bb-glyph">ᜊ ᜑᜌ᜔</span></div>
-              </div>
-
-              <div className="breakdown-card">
-                <div className="word">Word: <strong>bata</strong></div>
-                <div className="syllables">Syllables: <code>ba - ta</code></div>
-                <div className="result">Baybayin: <span className="bb-glyph">ᜊᜆ</span></div>
-              </div>
-
-              <div className="breakdown-card">
-                <div className="word">Word: <strong>guro</strong></div>
-                <div className="syllables">Syllables: <code>gu - ro</code></div>
-                <div className="result">Baybayin: <span className="bb-glyph">ᜄᜓᜇᜓ</span></div>
-              </div>
-            </div>
-
-            <div className="callout-box">
-              <p>💡 <strong>Golden Rule:</strong> Before writing any word, ask yourself: <em>What are the syllables?</em></p>
-            </div>
-          </section>
-
-          {/* Section 6: Pagsulat (Writing Words) */}
-          <section className="lesson-card" id="pagsulat">
-            <div className="lesson-badge">Lesson 6</div>
-            <h2>6. Pagsulat (Writing Words)</h2>
-            <p>Now combine every rule you've learned into full words.</p>
-
-            <div className="writing-examples">
-              <div className="write-card">
-                <div className="word-title">araw</div>
-                <div className="step">Split: <code>a - raw</code></div>
-                <div className="final-bb">ᜀ ᜇᜏ᜔</div>
-              </div>
-
-              <div className="write-card">
-                <div className="word-title">bahay</div>
-                <div className="step">Split: <code>ba - hay</code></div>
-                <div className="final-bb">ᜊ ᜑᜌ᜔</div>
-              </div>
-
-              <div className="write-card">
-                <div className="word-title">bundok</div>
-                <div className="step">Split: <code>bun - dok</code></div>
-                <div className="final-bb">ᜊᜓᜈ᜔ ᜇᜓᜃ᜔</div>
-              </div>
-
-              <div className="write-card">
-                <div className="word-title">kaibigan</div>
-                <div className="step">Split: <code>ka - i - bi - gan</code></div>
-                <div className="final-bb">ᜃ ᜁ ᜊᜒ ᜄᜈ᜔</div>
-              </div>
-            </div>
-          </section>
+            );
+          })}
         </div>
       </main>
 

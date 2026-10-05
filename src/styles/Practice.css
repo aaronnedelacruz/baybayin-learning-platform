@@ -1,25 +1,482 @@
-.practice-page {
-  min-height: 100svh;
+.practice {
+  /* The palette has no green, so correct answers get one that sits well
+     on both the vanilla and espresso backgrounds. */
+  --ok: light-dark(#2f7d4f, #7ccf9a);
+  --ok-bg: light-dark(rgba(47, 125, 79, 0.13), rgba(124, 207, 154, 0.15));
+  --bad-bg: light-dark(rgba(158, 42, 43, 0.1), rgba(232, 115, 111, 0.15));
+
+  height: 100svh;
+  max-height: 100vh;
+  overflow: hidden; /* viewport is locked; only .pr-body scrolls */
   display: flex;
   flex-direction: column;
 }
 
-.practice-main {
+.practice .pr-body {
   flex: 1;
-  width: 100%;
-  max-width: 1200px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.practice .pr-wrap {
+  max-width: 760px;
   margin: 0 auto;
-  padding: 48px 24px;
-  box-sizing: border-box;
+  padding: 40px 20px 48px;
+  display: grid;
+  gap: 14px;
+  transition: max-width 0.3s ease;
 }
 
-.practice-main h1 {
-  margin: 0 0 12px;
+/* A running session gets more width and less padding. */
+.practice .pr-wrap.is-session {
+  max-width: 1040px;
+  padding-top: 16px;
+  padding-bottom: 28px;
+}
+
+/* One entrance for both states, so switching between them feels the same. */
+@keyframes pr-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.practice .pr-stage {
+  display: grid;
+  gap: 14px;
+  animation: pr-in 0.28s ease-out both;
+}
+
+/* ---------- Setup: title, selectors, start ---------- */
+
+.practice .pr-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.practice .pr-head h1 {
   font-size: 36px;
+  margin: 0 0 4px;
 }
 
-.practice-main p {
+.practice .pr-head p {
   margin: 0;
-  font-size: 18px;
+  font-size: 14px;
   color: var(--text);
+}
+
+.practice .pr-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.practice .pr-seg {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.practice .pr-seg button {
+  flex: 1;
+  display: grid;
+  gap: 3px;
+  justify-items: center;
+  padding: 10px 8px;
+  line-height: 1.2;
+  background: transparent;
+  color: var(--text-h);
+  border-radius: 10px;
+}
+
+.practice .pr-seg button small {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.practice .pr-seg button:not([aria-pressed="true"]):hover {
+  background: var(--accent-bg);
+  filter: none;
+}
+
+.practice .pr-seg button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.practice .pr-start {
+  width: 100%;
+  margin-top: 6px;
+  padding: 16px 20px;
+}
+
+/* ---------- Session: compact status bar ---------- */
+
+.practice .pr-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.practice .pr-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.practice .pr-pill {
+  padding: 5px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-h);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 99px;
+}
+
+.practice .pr-change {
+  padding: 8px 14px;
+  font-size: 14px;
+  color: var(--accent-text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+}
+.practice .pr-change:hover {
+  background: var(--accent-bg);
+  filter: none;
+}
+
+/* ---------- Card ---------- */
+
+.practice .pr-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  overflow: clip; /* clips the corners without becoming a scroll container, so sticky buttons work */
+  transition: border-color 0.2s ease;
+}
+
+.practice .pr-card[data-state="correct"] {
+  border-color: var(--ok);
+}
+.practice .pr-card[data-state="wrong"] {
+  border-color: var(--danger);
+}
+
+.practice .pr-prompt {
+  grid-area: prompt;
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  padding: 24px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.practice .pr-glyph {
+  font-size: 96px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.practice .pr-glyph.is-long {
+  font-size: 52px;
+}
+
+/* ---------- Flashcard answer area ---------- */
+
+.practice .pr-answer {
+  grid-area: answer;
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  align-content: center;
+}
+
+.practice .pr-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  padding: 12px 16px;
+  color: var(--text-h);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+}
+.practice .pr-input::placeholder {
+  color: var(--text);
+  opacity: 0.6;
+}
+.practice .pr-input:focus {
+  border-color: var(--accent);
+}
+.practice .pr-input:disabled {
+  opacity: 0.8;
+}
+
+/* Feedback and hints share one fixed-height region so nothing jumps. */
+.practice .pr-feedback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 6px 14px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-h);
+  border-radius: 10px;
+}
+.practice .pr-feedback[data-kind="correct"] {
+  background: var(--ok-bg);
+}
+.practice .pr-feedback[data-kind="wrong"] {
+  background: var(--bad-bg);
+}
+.practice .pr-feedback[data-kind="hint"] {
+  background: var(--accent-bg);
+}
+
+.practice .pr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.practice .pr-btn {
+  flex: 1 1 auto;
+  padding: 14px 20px;
+}
+.practice .pr-btn.primary {
+  flex: 2 1 160px;
+}
+.practice .pr-btn.outline {
+  background: transparent;
+  color: var(--text-h);
+  border: 2px solid var(--border);
+  padding: 12px 18px;
+}
+.practice .pr-btn.outline:hover {
+  border-color: var(--accent);
+  filter: none;
+}
+.practice .pr-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* ---------- Quiz ---------- */
+
+.practice .pr-score {
+  grid-area: score;
+  display: grid;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.practice .pr-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.practice .pr-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.practice .pr-stat strong {
+  font-size: 22px;
+  color: var(--text-h);
+}
+
+.practice .pr-meter {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.practice .pr-meter span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.practice .pr-options {
+  grid-area: options;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+}
+
+.practice .pr-option {
+  min-height: 60px;
+  padding: 12px 16px;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--text-h);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+}
+.practice .pr-option:hover:not(:disabled) {
+  border-color: var(--accent);
+  filter: none;
+}
+.practice .pr-option:disabled {
+  cursor: default;
+  filter: none;
+}
+.practice .pr-option:disabled:not(.is-correct):not(.is-wrong) {
+  opacity: 0.55;
+}
+.practice .pr-option.is-correct {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+}
+.practice .pr-option.is-wrong {
+  border-color: var(--danger);
+  background: var(--bad-bg);
+}
+/* A symbol as well as colour, so the result never relies on colour alone. */
+.practice .pr-option.is-correct::after {
+  content: "  ✓";
+  color: var(--ok);
+}
+.practice .pr-option.is-wrong::after {
+  content: "  ✗";
+  color: var(--danger);
+}
+
+.practice .pr-quiz-foot {
+  grid-area: foot;
+  display: grid;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+/* ---------- Wide screens: prompt left, answer right ---------- */
+
+@media (min-width: 880px) {
+  .practice .pr-card--flash,
+  .practice .pr-card--quiz {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .practice .pr-card--flash {
+    grid-template-areas: "prompt answer";
+  }
+  .practice .pr-card--quiz {
+    grid-template-areas:
+      "score score"
+      "prompt options"
+      "prompt foot";
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .practice .pr-prompt {
+    min-height: 0;
+    padding: 28px;
+    border-bottom: 0;
+    border-right: 1px solid var(--border);
+  }
+  .practice .pr-card--flash .pr-prompt {
+    min-height: 340px;
+  }
+}
+
+/* ---------- Tablets and phones: stacked, buttons stay in reach ---------- */
+
+@media (max-width: 879px) {
+  .practice .pr-prompt {
+    min-height: 150px;
+    padding: 18px 16px;
+  }
+  .practice .pr-glyph {
+    font-size: 80px;
+  }
+  .practice .pr-glyph.is-long {
+    font-size: 44px;
+  }
+
+  /* Flashcard: pin the action row to the bottom of the screen while the card is in view. */
+  .practice .pr-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin: 0 -20px -20px;
+    padding: 12px 20px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Quiz: pin feedback and Next question. */
+  .practice .pr-quiz-foot {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    padding-top: 12px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 640px) {
+  .practice .pr-wrap {
+    padding: 20px 14px 28px;
+  }
+  .practice .pr-wrap.is-session {
+    padding-top: 12px;
+  }
+  .practice .pr-glyph {
+    font-size: 64px;
+  }
+  .practice .pr-glyph.is-long {
+    font-size: 34px;
+  }
+  .practice .pr-answer,
+  .practice .pr-options {
+    padding: 14px;
+  }
+  .practice .pr-actions {
+    margin: 0 -14px -14px;
+    padding: 10px 14px 12px;
+  }
+  .practice .pr-quiz-foot {
+    padding: 10px 14px 12px;
+  }
+  .practice .pr-score {
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .practice .pr-options {
+    grid-template-columns: 1fr;
+  }
 }
