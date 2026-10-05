@@ -16,23 +16,11 @@ Instead of presenting Baybayin as a static reference chart, the platform guides 
 
 # 📸 Preview
 
-> Replace these images with screenshots of your application.
+<img src="assets/prev1.png" alt="Landing Page and Baybayin Keyboard" width="100%">
 
-## Home
+<img src="assets/prev2.png" alt="Baybayin Lessons" width="100%">
 
-![Home](images/home.png)
-
-## Baybayin Keyboard
-
-![Keyboard](images/keyboard.png)
-
-## Lessons
-
-![Lessons](images/lessons.png)
-
-## Practice
-
-![Practice](images/practice.png)
+<img src="assets/prev3.png" alt="Baybayin Practice" width="100%">
 
 ---
 
