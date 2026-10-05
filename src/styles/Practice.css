@@ -30,7 +30,7 @@
 /* A running session gets more width and less padding. */
 .practice .pr-wrap.is-session {
   max-width: 1040px;
-  padding-top: 16px;
+  padding-top: 50px;
   padding-bottom: 28px;
 }
 
