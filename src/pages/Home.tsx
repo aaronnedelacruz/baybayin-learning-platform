@@ -161,6 +161,7 @@ function readTheme(): Theme {
 function Home() {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [kudlit, setKudlit] = useState<KudlitForm>(KUDLIT[0]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -177,17 +178,24 @@ function Home() {
     <div className="home">
       <nav className="nav">
         <div className="nav-inner">
-          <a href="/" className="brand">
+          <a href="https://aaronnedelacruz.github.io/baybayin-learning-platform/" className="brand">
             <span className="bb-key" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
             <span className="brand-name">Baybayin</span>
           </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li><Link to="/">About</Link></li>
             <li><Link to="/keyboard">Keyboard</Link></li>
             <li><Link to="/lessons">Lessons</Link></li>
             <li><Link to="/practice">Practice</Link></li>
           </ul>
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"
