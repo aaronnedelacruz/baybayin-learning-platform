@@ -1,6 +1,6 @@
 # Baybayin Learning Platform
 
-An interactive web application designed to help beginners learn the Baybayin writing system through structured lessons, hands-on practice, and an integrated Baybayin keyboard.
+An interactive web application designed to help beginners learn the Filipino's Ancient Baybayin writing system through structured lessons, hands-on practice, and an integrated Baybayin keyboard.
 
 Instead of presenting Baybayin as a static reference chart, the platform guides learners through a progressive learning path—from understanding individual characters to reading and writing complete words and phrases. The application emphasizes simplicity, accessibility, and a modern user experience suitable for both desktop and mobile devices.
 
