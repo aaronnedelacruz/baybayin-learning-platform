@@ -18,6 +18,7 @@ function readTheme(): Theme {
 function Lessons() {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [openLessons, setOpenLessons] = useState<number[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -29,63 +30,67 @@ function Lessons() {
   const nextTheme: Theme = theme === "light" ? "dark" : "light";
 
   const lessons = [
-  {
-    title: "Lesson 1 - Patinig (ᜉᜆᜒᜈᜒᜄ᜔) / Vowels",
-    description:
-      "The first step in learning Baybayin begins with its three vowel characters, known as Patinig. In this lesson, you'll learn how to recognize, pronounce, and read each one while understanding why three symbols are enough to represent the five modern Filipino vowels.",
-    button: "Start Lesson",
-    path: "/lessons/1",
-  },
-  {
-    title: "Lesson 2 - Katinig (ᜃᜆᜒᜈᜒᜄ᜔) / Consonants",
-    description:
-      "Learn the fourteen Katinig (consonant) characters that make up the core of the Baybayin writing system. You'll discover that every consonant already carries the vowel A, recognize each character by sight, and practice reading them through familiar Filipino words.",
-    button: "Start Lesson",
-    path: "/lessons/2",
-  },
-  {
-    title: "Lesson 3 - Kudlit (ᜃᜓᜇ᜔ᜎᜒᜆ᜔) / Vowel Marks",
-    description:
-      "Discover how the kudlit changes the sound of a Baybayin character. You'll learn how marks placed above or below a consonant replace its built-in A sound with I/E or U/O, allowing you to write many more syllables.",
-    button: "Start Lesson",
-    path: "/lessons/3",
-  },
-  {
-    title: "Lesson 4 - Pamudpod (ᜉᜋᜓᜇ᜔ᜉᜓᜇ᜔) / Virama",
-    description:
-      "Learn how the pamudpod (virama) removes the built-in vowel from a consonant. By the end of this lesson, you'll be able to write syllables that end in consonants and understand how modern Baybayin represents words more accurately.",
-    button: "Start Lesson",
-    path: "/lessons/4",
-  },
-  {
-    title: "Lesson 5 - Pantig (ᜉᜈ᜔ᜆᜒᜄ᜔) / Syllables",
-    description:
-      "Baybayin is written by syllables, not individual letters. In this lesson, you'll learn how to break Filipino words into syllables, apply the writing rules you've learned, and build complete Baybayin words one syllable at a time.",
-    button: "Start Lesson",
-    path: "/lessons/5",
-  },
-  {
-    title: "Lesson 6 - Pagsulat ng mga Salita (ᜉᜄ᜔ᜐᜓᜎᜆ᜔ ᜈᜅ᜔ ᜋᜄ ᜐᜎᜒᜆ) / Writing Words",
-    description:
-      "Bring together everything you've learned throughout the course. You'll practice reading and writing complete words, names, and simple phrases while applying vowels, consonants, kudlit, and pamudpod with confidence.",
-    button: "Start Lesson",
-    path: "/lessons/6",
-  },
-];
+    {
+      title: "Lesson 1 - Patinig (ᜉᜆᜒᜈᜒᜄ᜔) / Vowels",
+      description:
+        "The first step in learning Baybayin begins with its three vowel characters, known as Patinig. In this lesson, you'll learn how to recognize, pronounce, and read each one while understanding why three symbols are enough to represent the five modern Filipino vowels.",
+      button: "Start Lesson",
+      path: "/lessons/1",
+    },
+    {
+      title: "Lesson 2 - Katinig (ᜃᜆᜒᜈᜒᜄ᜔) / Consonants",
+      description:
+        "Learn the fourteen Katinig (consonant) characters that make up the core of the Baybayin writing system. You'll discover that every consonant already carries the vowel A, recognize each character by sight, and practice reading them through familiar Filipino words.",
+      button: "Start Lesson",
+      path: "/lessons/2",
+    },
+    {
+      title: "Lesson 3 - Kudlit (ᜃᜓᜇ᜔ᜎᜒᜆ᜔) / Vowel Marks",
+      description:
+        "Discover how the kudlit changes the sound of a Baybayin character. You'll learn how marks placed above or below a consonant replace its built-in A sound with I/E or U/O, allowing you to write many more syllables.",
+      button: "Start Lesson",
+      path: "/lessons/3",
+    },
+    {
+      title: "Lesson 4 - Pamudpod (ᜉᜋᜓᜇ᜔ᜉᜓᜇ᜔) / Virama",
+      description:
+        "Learn how the pamudpod (virama) removes the built-in vowel from a consonant. By the end of this lesson, you'll be able to write syllables that end in consonants and understand how modern Baybayin represents words more accurately.",
+      button: "Start Lesson",
+      path: "/lessons/4",
+    },
+    {
+      title: "Lesson 5 - Pantig (ᜉᜈ᜔ᜆᜒᜄ᜔) / Syllables",
+      description:
+        "Baybayin is written by syllables, not individual letters. In this lesson, you'll learn how to break Filipino words into syllables, apply the writing rules you've learned, and build complete Baybayin words one syllable at a time.",
+      button: "Start Lesson",
+      path: "/lessons/5",
+    },
+    {
+      title:
+        "Lesson 6 - Pagsulat ng mga Salita (ᜉᜄ᜔ᜐᜓᜎᜆ᜔ ᜈᜅ᜔ ᜋᜄ ᜐᜎᜒᜆ) / Writing Words",
+      description:
+        "Bring together everything you've learned throughout the course. You'll practice reading and writing complete words, names, and simple phrases while applying vowels, consonants, kudlit, and pamudpod with confidence.",
+      button: "Start Lesson",
+      path: "/lessons/6",
+    },
+  ];
 
   return (
     <div className="home lessons-page">
       <SkyBackground />
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -99,6 +104,14 @@ function Lessons() {
               <Link to="/practice">Practice</Link>
             </li>
           </ul>
+
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"
