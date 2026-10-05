@@ -93,6 +93,7 @@ function Keyboard() {
   const [value, setValue] = useState("");
   const [notice, setNotice] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -235,27 +236,28 @@ function Keyboard() {
     <div className="home kb-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
-            <span className="bb-key" aria-hidden="true">
-              ᜊᜌ᜔ᜊᜌᜒᜈ᜔
-            </span>
+          <a href="https://aaronnedelacruz.github.io/baybayin-learning-platform/" className="brand">
+            <span className="bb-key" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
-              <Link to="/">About</Link>
+              <Link to="/" onClick={() => setMenuOpen(false)}>
+                About
+              </Link>
             </li>
-            <li>
-              <Link to="/keyboard">Keyboard</Link>
-            </li>
-            <li>
-              <Link to="/lessons">Lessons</Link>
-            </li>
-            <li>
-              <Link to="/practice">Practice</Link>
-            </li>
+            <li><Link to="/keyboard">Keyboard</Link></li>
+            <li><Link to="/lessons">Lessons</Link></li>
+            <li><Link to="/practice">Practice</Link></li>
           </ul>
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"
