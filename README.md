@@ -16,11 +16,11 @@ Instead of presenting Baybayin as a static reference chart, the platform guides 
 
 # 📸 Preview
 
-<img src="assets/prev1.png" alt="Landing Page and Baybayin Keyboard" width="100%">
+<img src="src/assets/prev1.png" alt="Landing Page and Baybayin Keyboard" width="100%">
 
-<img src="assets/prev2.png" alt="Baybayin Lessons" width="100%">
+<img src="src/assets/prev2.png" alt="Baybayin Lessons" width="100%">
 
-<img src="assets/prev3.png" alt="Baybayin Practice" width="100%">
+<img src="src/assets/prev3.png" alt="Baybayin Practice" width="100%">
 
 ---
 
