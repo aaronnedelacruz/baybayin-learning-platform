@@ -58,11 +58,21 @@
 }
 .nav-toggle {
   display: none;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  margin: 0;
+
   background: transparent;
   border: none;
   color: var(--nav-text);
-  cursor: pointer;
+
   font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
 }
 .brand {
   display: flex;
@@ -185,8 +195,21 @@
   height: 56px;
   background: var(--nav);
   clip-path: polygon(
-    0 60%, 8% 40%, 16% 55%, 25% 35%, 34% 55%, 42% 40%, 50% 58%,
-    58% 38%, 67% 55%, 76% 38%, 84% 56%, 92% 42%, 100% 58%, 100% 100%, 0 100%
+    0 60%,
+    8% 40%,
+    16% 55%,
+    25% 35%,
+    34% 55%,
+    42% 40%,
+    50% 58%,
+    58% 38%,
+    67% 55%,
+    76% 38%,
+    84% 56%,
+    92% 42%,
+    100% 58%,
+    100% 100%,
+    0 100%
   );
 }
 
@@ -385,31 +408,31 @@ details[open] .mod-num {
 /* Responsive */
 @media (max-width: 800px) {
   .nav-inner {
-    position: relative;
+    position: static;
   }
 
   .nav-toggle {
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
+    display: flex;
     margin-left: auto;
   }
+
   .nav-links {
     display: none;
-    position: absolute;
+    position: fixed;
+
     top: 68px;
     left: 0;
     right: 0;
+
+    width: 100vw;
 
     background: var(--nav);
 
     flex-direction: column;
     align-items: center;
-
     gap: 20px;
 
-    padding: 24px;
+    padding: 24px 0;
 
     z-index: 999;
   }
