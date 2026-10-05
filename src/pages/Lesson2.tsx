@@ -155,7 +155,10 @@ const SUMMARY = [
 ];
 
 // Buttons inherit a dark text color from index.css, so set it for dark mode.
-const CARD_BUTTON: CSSProperties = { color: "var(--text-h)", cursor: "pointer" };
+const CARD_BUTTON: CSSProperties = {
+  color: "var(--text-h)",
+  cursor: "pointer",
+};
 const CARD_SELECTED: CSSProperties = {
   ...CARD_BUTTON,
   borderColor: "var(--accent)",
@@ -174,6 +177,7 @@ function Lesson2() {
   const [cardIndex, setCardIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [completed, setCompleted] = useState(readComplete);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const bodyRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -216,8 +220,8 @@ function Lesson2() {
             <h2>Welcome to Katinig</h2>
             <p>
               In the last module you learned the three vowels, called{" "}
-              <strong>Patinig</strong>. Now you will learn <strong>Katinig</strong>,
-              the consonant characters of Baybayin.
+              <strong>Patinig</strong>. Now you will learn{" "}
+              <strong>Katinig</strong>, the consonant characters of Baybayin.
             </p>
             <div className="lp-compare">
               <div className="lp-card">
@@ -225,7 +229,11 @@ function Lesson2() {
                 <p className="lp-letters">K</p>
                 <small>just the consonant</small>
               </div>
-              <ArrowRight className="lp-compare-arrow" size={28} aria-hidden="true" />
+              <ArrowRight
+                className="lp-compare-arrow"
+                size={28}
+                aria-hidden="true"
+              />
               <div className="lp-card">
                 <h4>Baybayin</h4>
                 <p className="bb-card lp-letters-bb" aria-hidden="true">
@@ -276,7 +284,11 @@ function Lesson2() {
               {showPattern ? "Hide answer" : "Show answer"}
             </button>
             {showPattern && (
-              <div className="lp-feedback is-correct" role="status" style={{ marginTop: 14 }}>
+              <div
+                className="lp-feedback is-correct"
+                role="status"
+                style={{ marginTop: 14 }}
+              >
                 Every character ends with the <strong>a</strong> sound. That is
                 why ᜊ reads ba, never just b.
               </div>
@@ -290,7 +302,11 @@ function Lesson2() {
           <section className="lp-section">
             <h2>Meet the 14 consonants</h2>
             <p>Tap a card to see its sound in a real word.</p>
-            <div className="lp-feedback" role="status" style={{ marginBottom: 16 }}>
+            <div
+              className="lp-feedback"
+              role="status"
+              style={{ marginBottom: 16 }}
+            >
               <span className="bb-inline" aria-hidden="true">
                 {c.char}
               </span>{" "}
@@ -333,7 +349,10 @@ function Lesson2() {
                   {[pair.a, pair.b].map((k, i) => (
                     <div key={k.char} style={{ display: "contents" }}>
                       {i === 1 && (
-                        <span className="lp-compare-arrow" style={{ fontWeight: 700 }}>
+                        <span
+                          className="lp-compare-arrow"
+                          style={{ fontWeight: 700 }}
+                        >
                           vs
                         </span>
                       )}
@@ -439,14 +458,17 @@ function Lesson2() {
     <div className="home lesson-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -460,6 +482,14 @@ function Lesson2() {
               <Link to="/practice">Practice</Link>
             </li>
           </ul>
+
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"
@@ -495,11 +525,19 @@ function Lesson2() {
             aria-valuenow={Math.round(progress)}
             aria-label="Lesson progress"
           >
-            <div className="lp-progress-fill" style={{ width: `${progress}%` }} />
+            <div
+              className="lp-progress-fill"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </header>
 
-        <div className="lp-tabs" role="tablist" aria-label="Lesson steps" ref={tabsRef}>
+        <div
+          className="lp-tabs"
+          role="tablist"
+          aria-label="Lesson steps"
+          ref={tabsRef}
+        >
           {STEPS.map((label, i) => (
             <button
               key={label}

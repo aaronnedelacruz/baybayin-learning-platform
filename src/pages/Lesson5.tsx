@@ -251,7 +251,11 @@ function QuizPanel({ questions }: { questions: QuizQuestion[] }) {
               {o.text}
               {picked === i &&
                 (o.correct ? (
-                  <Check className="lp-option-icon" size={20} aria-hidden="true" />
+                  <Check
+                    className="lp-option-icon"
+                    size={20}
+                    aria-hidden="true"
+                  />
                 ) : (
                   <X className="lp-option-icon" size={20} aria-hidden="true" />
                 ))}
@@ -306,6 +310,7 @@ function Lesson5() {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [step, setStep] = useState(0);
   const [completed, setCompleted] = useState(readComplete);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const bodyRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -475,14 +480,17 @@ function Lesson5() {
     <div className="home lesson-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -497,6 +505,13 @@ function Lesson5() {
             </li>
           </ul>
 
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
           <button
             className="icon-btn"
             onClick={() => setTheme(nextTheme)}

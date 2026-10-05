@@ -48,9 +48,24 @@ const STEPS = [
 const LAST_STEP = STEPS.length - 1;
 
 const ENDINGS = [
-  { char: "ᜊ᜔", sound: "B", text: "ᜊ (ba) without its built-in “a”.", words: "bus, tab" },
-  { char: "ᜃ᜔", sound: "K", text: "ᜃ (ka) without its built-in “a”.", words: "anak, pak" },
-  { char: "ᜐ᜔", sound: "S", text: "ᜐ (sa) without its built-in “a”.", words: "bus, gas" },
+  {
+    char: "ᜊ᜔",
+    sound: "B",
+    text: "ᜊ (ba) without its built-in “a”.",
+    words: "bus, tab",
+  },
+  {
+    char: "ᜃ᜔",
+    sound: "K",
+    text: "ᜃ (ka) without its built-in “a”.",
+    words: "anak, pak",
+  },
+  {
+    char: "ᜐ᜔",
+    sound: "S",
+    text: "ᜐ (sa) without its built-in “a”.",
+    words: "bus, gas",
+  },
 ];
 
 const FLASHCARDS = [
@@ -152,7 +167,11 @@ function QuizPanel({ questions }: { questions: QuizQuestion[] }) {
               {o.text}
               {picked === i &&
                 (o.correct ? (
-                  <Check className="lp-option-icon" size={20} aria-hidden="true" />
+                  <Check
+                    className="lp-option-icon"
+                    size={20}
+                    aria-hidden="true"
+                  />
                 ) : (
                   <X className="lp-option-icon" size={20} aria-hidden="true" />
                 ))}
@@ -209,6 +228,7 @@ function Lesson4() {
   const [cardIndex, setCardIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [completed, setCompleted] = useState(readComplete);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const bodyRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -274,10 +294,9 @@ function Lesson4() {
           <section className="lp-section">
             <h2>Why do we need Pamudpod?</h2>
             <p>
-              Every Baybayin consonant is read with an “a” by default: ᜊ is
-              “ba” and ᜃ is “ka”. That works for most syllables, but many
-              Filipino words end on a consonant, so we need a way to cancel the
-              “a”.
+              Every Baybayin consonant is read with an “a” by default: ᜊ is “ba”
+              and ᜃ is “ka”. That works for most syllables, but many Filipino
+              words end on a consonant, so we need a way to cancel the “a”.
             </p>
             <div className="lp-compare">
               <div className="lp-card">
@@ -301,8 +320,8 @@ function Lesson4() {
               </div>
             </div>
             <p>
-              The mark removes the vowel completely, so only the consonant
-              sound is left.
+              The mark removes the vowel completely, so only the consonant sound
+              is left.
             </p>
           </section>
         );
@@ -416,14 +435,17 @@ function Lesson4() {
     <div className="home lesson-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -437,6 +459,14 @@ function Lesson4() {
               <Link to="/practice">Practice</Link>
             </li>
           </ul>
+
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"

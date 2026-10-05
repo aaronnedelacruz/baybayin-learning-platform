@@ -102,7 +102,12 @@ const RULES = [
   },
 ];
 
-const PLACE_TARGETS: { base: string; target: string; answer: Placement; result: string }[] = [
+const PLACE_TARGETS: {
+  base: string;
+  target: string;
+  answer: Placement;
+  result: string;
+}[] = [
   { base: "ᜋ", target: "mu", answer: "below", result: "ᜋᜓ" },
   { base: "ᜆ", target: "ti", answer: "above", result: "ᜆᜒ" },
   { base: "ᜉ", target: "pa", answer: "none", result: "ᜉ" },
@@ -134,7 +139,13 @@ interface WordPart {
   modified?: boolean;
 }
 
-const WORDS: { word: string; meaning: string; baybayin: string; parts: WordPart[]; note: string }[] = [
+const WORDS: {
+  word: string;
+  meaning: string;
+  baybayin: string;
+  parts: WordPart[];
+  note: string;
+}[] = [
   {
     word: "pusa",
     meaning: "cat",
@@ -205,7 +216,8 @@ const QUESTIONS: QuizQuestion[] = [
     prompt: "With three forms, how many vowel sounds can one consonant make?",
     options: [{ label: "2" }, { label: "3" }, { label: "5" }],
     answer: 2,
-    explain: "a, e, i, o and u: no mark gives a, the upper mark gives i or e, the lower mark gives u or o.",
+    explain:
+      "a, e, i, o and u: no mark gives a, the upper mark gives i or e, the lower mark gives u or o.",
   },
   {
     prompt: "Which word is written ᜉᜓᜐ?",
@@ -223,7 +235,10 @@ const SUMMARY = [
 ];
 
 // Buttons inherit a dark text color from index.css, so set it for dark mode.
-const CARD_BUTTON: CSSProperties = { color: "var(--text-h)", cursor: "pointer" };
+const CARD_BUTTON: CSSProperties = {
+  color: "var(--text-h)",
+  cursor: "pointer",
+};
 const CARD_SELECTED: CSSProperties = {
   ...CARD_BUTTON,
   borderColor: "var(--accent)",
@@ -241,6 +256,7 @@ function Lesson3() {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const [step, setStep] = useState(0);
   const [completed, setCompleted] = useState(readComplete);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Builder
   const [consonant, setConsonant] = useState(1);
@@ -296,7 +312,9 @@ function Lesson3() {
   }
 
   function toggleWord(word: string) {
-    setShown((s) => (s.includes(word) ? s.filter((w) => w !== word) : [...s, word]));
+    setShown((s) =>
+      s.includes(word) ? s.filter((w) => w !== word) : [...s, word],
+    );
   }
 
   function renderStep() {
@@ -306,10 +324,11 @@ function Lesson3() {
           <section className="lp-section">
             <h2>Welcome to Kudlit</h2>
             <p>
-              Every consonant you learned reads with a built-in <strong>a</strong>.
-              A small mark called a <strong>kudlit</strong> moves that vowel:
-              above for I or E, below for U or O. This is where most beginners
-              get stuck, so you will build it up one step at a time.
+              Every consonant you learned reads with a built-in{" "}
+              <strong>a</strong>. A small mark called a <strong>kudlit</strong>{" "}
+              moves that vowel: above for I or E, below for U or O. This is
+              where most beginners get stuck, so you will build it up one step
+              at a time.
             </p>
             <div className="lp-vowels">
               {RULES.map((r) => (
@@ -340,7 +359,9 @@ function Lesson3() {
         return (
           <section className="lp-section">
             <h2>Kudlit builder</h2>
-            <p>Pick a consonant and a vowel sound, then see how it is written.</p>
+            <p>
+              Pick a consonant and a vowel sound, then see how it is written.
+            </p>
 
             <h4 style={{ margin: "0 0 8px" }}>1. Consonant</h4>
             <div className="lp-vowels" style={CHIP_GRID}>
@@ -390,7 +411,10 @@ function Lesson3() {
             </div>
 
             <h4 style={{ margin: "20px 0 8px" }}>Three forms, five sounds</h4>
-            <ol className="lp-parts" style={{ justifyContent: "flex-start", flexWrap: "wrap" }}>
+            <ol
+              className="lp-parts"
+              style={{ justifyContent: "flex-start", flexWrap: "wrap" }}
+            >
               {VOWELS.map((v) => (
                 <li key={v} className={v === vowel ? "is-vowel" : undefined}>
                   <span className="bb-key" aria-hidden="true">
@@ -420,13 +444,21 @@ function Lesson3() {
               <div className="bb-hero lp-flash-glyph" aria-hidden="true">
                 {answered && correct ? t.result : t.base}
               </div>
-              <div className="lp-row" role="group" aria-label="Kudlit placement">
+              <div
+                className="lp-row"
+                role="group"
+                aria-label="Kudlit placement"
+              >
                 {(["above", "below", "none"] as Placement[]).map((p) => {
                   const chosen = placeChoice === p;
                   const style: CSSProperties | undefined = chosen
                     ? {
-                        borderColor: p === t.answer ? "var(--lp-ok)" : "var(--lp-bad)",
-                        background: p === t.answer ? "var(--lp-ok-bg)" : "var(--lp-bad-bg)",
+                        borderColor:
+                          p === t.answer ? "var(--lp-ok)" : "var(--lp-bad)",
+                        background:
+                          p === t.answer
+                            ? "var(--lp-ok-bg)"
+                            : "var(--lp-bad-bg)",
                         color: "var(--text-h)",
                       }
                     : undefined;
@@ -528,7 +560,10 @@ function Lesson3() {
                       <h3>{w.word}</h3>
                       <small>{w.meaning}</small>
                     </div>
-                    <div className="bb-card lp-word-bb" aria-label={`${w.word} in Baybayin`}>
+                    <div
+                      className="bb-card lp-word-bb"
+                      aria-label={`${w.word} in Baybayin`}
+                    >
                       {w.baybayin}
                     </div>
                     <button
@@ -548,7 +583,10 @@ function Lesson3() {
                       <>
                         <ol className="lp-parts">
                           {w.parts.map((p, i) => (
-                            <li key={`${p.char}-${i}`} className={p.modified ? "is-vowel" : undefined}>
+                            <li
+                              key={`${p.char}-${i}`}
+                              className={p.modified ? "is-vowel" : undefined}
+                            >
                               <span className="bb-key" aria-hidden="true">
                                 {p.char}
                               </span>
@@ -593,7 +631,9 @@ function Lesson3() {
                 Module 3 is complete.
               </p>
             )}
-            <p>Next up is Pamudpod, the mark that ends a syllable on a consonant.</p>
+            <p>
+              Next up is Pamudpod, the mark that ends a syllable on a consonant.
+            </p>
           </section>
         );
     }
@@ -603,14 +643,17 @@ function Lesson3() {
     <div className="home lesson-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -624,6 +667,14 @@ function Lesson3() {
               <Link to="/practice">Practice</Link>
             </li>
           </ul>
+
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
 
           <button
             className="icon-btn"
@@ -659,11 +710,19 @@ function Lesson3() {
             aria-valuenow={Math.round(progress)}
             aria-label="Lesson progress"
           >
-            <div className="lp-progress-fill" style={{ width: `${progress}%` }} />
+            <div
+              className="lp-progress-fill"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </header>
 
-        <div className="lp-tabs" role="tablist" aria-label="Lesson steps" ref={tabsRef}>
+        <div
+          className="lp-tabs"
+          role="tablist"
+          aria-label="Lesson steps"
+          ref={tabsRef}
+        >
           {STEPS.map((label, i) => (
             <button
               key={label}

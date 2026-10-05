@@ -49,10 +49,18 @@ const LAST_STEP = STEPS.length - 1;
 
 const RECAP = [
   { char: "ᜀ ᜁ ᜂ", name: "Patinig", text: "The vowels: A, I/E and U/O." },
-  { char: "ᜊ ᜃ ᜐ", name: "Katinig", text: "Consonants, each with a built-in “a”." },
+  {
+    char: "ᜊ ᜃ ᜐ",
+    name: "Katinig",
+    text: "Consonants, each with a built-in “a”.",
+  },
   { char: "ᜊᜒ ᜊᜓ", name: "Kudlit", text: "Marks that change the vowel." },
   { char: "ᜊ᜔", name: "Pamudpod", text: "The cross that removes the vowel." },
-  { char: "ᜊᜌᜈ᜔", name: "Pantig", text: "Words are built one syllable at a time." },
+  {
+    char: "ᜊᜌᜈ᜔",
+    name: "Pantig",
+    text: "Words are built one syllable at a time.",
+  },
 ];
 
 const READING: {
@@ -151,7 +159,10 @@ const WRITING: {
 const MISTAKES = [
   {
     title: "Wrong kudlit placement",
-    wrong: { char: "ᜊᜓ", text: "Wanted “bi” but put the mark below, so it reads “bu”." },
+    wrong: {
+      char: "ᜊᜓ",
+      text: "Wanted “bi” but put the mark below, so it reads “bu”.",
+    },
     right: { char: "ᜊᜒ", text: "A mark above makes “bi”." },
     why: "Above means I or E. Below means U or O.",
   },
@@ -286,7 +297,11 @@ function QuizPanel({ questions }: { questions: QuizQuestion[] }) {
               {o.text}
               {picked === i &&
                 (o.correct ? (
-                  <Check className="lp-option-icon" size={20} aria-hidden="true" />
+                  <Check
+                    className="lp-option-icon"
+                    size={20}
+                    aria-hidden="true"
+                  />
                 ) : (
                   <X className="lp-option-icon" size={20} aria-hidden="true" />
                 ))}
@@ -344,6 +359,7 @@ function Lesson6() {
   const [writeIndex, setWriteIndex] = useState(0);
   const [writeRevealed, setWriteRevealed] = useState(false);
   const [completed, setCompleted] = useState(readComplete);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const bodyRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -491,7 +507,9 @@ function Lesson6() {
                     </ol>
                   </>
                 ) : (
-                  <small>Split it into syllables, then reveal the answer.</small>
+                  <small>
+                    Split it into syllables, then reveal the answer.
+                  </small>
                 )}
               </div>
               <div className="lp-row">
@@ -587,7 +605,8 @@ function Lesson6() {
                 className="lp-btn outline"
                 onClick={complete}
               >
-                Try Keyboard Practice <ArrowRight size={18} aria-hidden="true" />
+                Try Keyboard Practice{" "}
+                <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </div>
           </section>
@@ -599,14 +618,17 @@ function Lesson6() {
     <div className="home lesson-page">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="brand">
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
             <span className="bb-key" aria-hidden="true">
               ᜊᜌ᜔ᜊᜌᜒᜈ᜔
             </span>
             <span className="brand-name">Baybayin</span>
-          </Link>
+          </a>
 
-          <ul className="nav-links">
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">About</Link>
             </li>
@@ -621,6 +643,13 @@ function Lesson6() {
             </li>
           </ul>
 
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
           <button
             className="icon-btn"
             onClick={() => setTheme(nextTheme)}
