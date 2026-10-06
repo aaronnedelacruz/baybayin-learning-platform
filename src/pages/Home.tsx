@@ -370,9 +370,6 @@ function Home() {
             ))}
           </ol>
           <div className="btn-row">
-            <a href="/keyboard" className="btn outline">
-              Try the keyboard first
-            </a>
           </div>
         </div>
       </section>
