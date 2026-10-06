@@ -3,7 +3,6 @@ import { Moon, Sun } from "lucide-react";
 import "../styles/Home.css";
 import { Link } from "react-router-dom";
 
-
 type Theme = "light" | "dark";
 
 interface KudlitForm {
@@ -178,16 +177,29 @@ function Home() {
     <div className="home">
       <nav className="nav">
         <div className="nav-inner">
-          <a href="https://aaronnedelacruz.github.io/baybayin-learning-platform/" className="brand">
-            <span className="bb-key" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
+          <a
+            href="https://aaronnedelacruz.github.io/baybayin-learning-platform/"
+            className="brand"
+          >
+            <span className="bb-key" aria-hidden="true">
+              ᜊᜌ᜔ᜊᜌᜒᜈ᜔
+            </span>
             <span className="brand-name">Baybayin</span>
           </a>
 
           <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
-            <li><Link to="/">About</Link></li>
-            <li><Link to="/keyboard">Keyboard</Link></li>
-            <li><Link to="/lessons">Lessons</Link></li>
-            <li><Link to="/practice">Practice</Link></li>
+            <li>
+              <Link to="/">About</Link>
+            </li>
+            <li>
+              <Link to="/keyboard">Keyboard</Link>
+            </li>
+            <li>
+              <Link to="/lessons">Lessons</Link>
+            </li>
+            <li>
+              <Link to="/practice">Practice</Link>
+            </li>
           </ul>
           <button
             className="nav-toggle"
@@ -217,8 +229,13 @@ function Home() {
               words with a live keyboard.
             </p>
             <div className="btn-row">
-              <a href="/Lessons" className="btn">Start learning</a>
-              <a href="/keyboard" className="btn outline">Try the keyboard</a>
+              <Link to="/lessons" className="btn">
+                Start learning
+              </Link>
+
+              <Link to="/keyboard" className="btn outline">
+                Try the keyboard
+              </Link>
             </div>
             <p className="hero-facts secondary">
               17 basic characters · 6 lessons · practice at your own pace
@@ -264,7 +281,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="kudlit-buttons" role="group" aria-label="Kudlit forms">
+          <div
+            className="kudlit-buttons"
+            role="group"
+            aria-label="Kudlit forms"
+          >
             {KUDLIT.map((k) => (
               <button
                 key={k.char}
@@ -349,14 +370,18 @@ function Home() {
             ))}
           </ol>
           <div className="btn-row">
-            <a href="/keyboard" className="btn outline">Try the keyboard first</a>
+            <a href="/keyboard" className="btn outline">
+              Try the keyboard first
+            </a>
           </div>
         </div>
       </section>
 
       <footer className="footer">
         <div className="section-inner">
-          <span className="bb-inline" aria-hidden="true">ᜊᜌ᜔ᜊᜌᜒᜈ᜔</span>
+          <span className="bb-inline" aria-hidden="true">
+            ᜊᜌ᜔ᜊᜌᜒᜈ᜔
+          </span>
           <span>Learn · Practice · Write</span>
         </div>
       </footer>
